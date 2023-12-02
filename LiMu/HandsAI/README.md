@@ -89,7 +89,7 @@ x = LayerNomr(x + MLP(x))
 
 > **Why LayerNorm ?**
 >
-> 我们再回顾一下 BatchNorm 和 LayerNorm 的计算方式定义
+> 我们再回顾一下 BatchNorm（特征维度的标准化）和 LayerNorm（样本维度的标准化）的计算方式定义
 >
 > ```python
 > x.shape=(bs, f) # 表示有 f 个 feature
@@ -122,6 +122,10 @@ x = LayerNomr(x + MLP(x))
 > 	- mean.shape=(bs, 1, 1)
 > 	- std.shape=(bs, 1, 1)
 > ```
+>
+> 对应的示意图如下：
+>
+> <img src="/Users/karry/KarryRen/Codes/Karry-Studies-AI/LiMu/HandsAI/README.assets/image-20231130191207794.png" alt="image-20231130191207794" style="zoom:60%;" />
 >
 > 在语言任务中，每个输入的 case 都是切好的一个个句子，但是句子的长度可能不一致（一句话可能有 5 个词，一句话可能有 4 个），且模型对 seq 的要求是固定的。因此在构建数据集时为了保持输入的形状相同（seq 相同）就需要进行截断或者补全。
 >
@@ -165,7 +169,9 @@ An attention function can be described as **mapping a query and a set of key-val
   $$
   Attention(Q, K, V) = \mathrm{softmax}(\frac{QK^T}{\sqrt{d_k}})V
   $$
-  计算的示意图如下，注意**其中的 Mask 是在 Decoder 时加入**的，防止看到当下时间点后续的 K 时所加入的一个掩码，矩阵乘法 + Scale 完成后，只把能看到 K 对应的结果取出来计算对应权重，其他的看不到的权重设为 0。
+  计算的示意图如下，注意**其中的 Mask 是在 Decoder 时加入**的，防止看到当下时间点后续的 K 时所加入的一个掩码（解码器对序列中一个元素输出时，不应该考虑该元素及其之后的元素内容，因为在 pridict 的时候是拿不到的）。矩阵乘法 + Scale 完成后，只把能看到 K 对应的结果取出来计算对应权重，其他的看不到的权重设为 0。
+
+  具体过程如下图所示：
 
   <img src="/Users/karry/KarryRen/Codes/Karry-Studies-AI/LiMu/HandsAI/README.assets/image-20231130163117906.png" alt="image-20231130163117906" style="zoom:30%;" />
 
@@ -182,7 +188,7 @@ An attention function can be described as **mapping a query and a set of key-val
   始终要记住 Attention 的本质是对时序维度信息的抓取（求权重）以及汇聚（加权和）。因此一切关于 Attention 的设计都是为了提高特征抓取能力。此处设计官方解释的好处如下（从两个方面**提高了特征提取能力**）：
 
   - Multi-head attention allows the model to jointly attend to information from different representation subspaces at different positions. With a single attention head, averaging inhibits this. 用人话来讲就是模拟多 Channel **提取更多维度**的表征信息。
-  - 由于乘性注意力没有特别多可以学习的参数，拓展多头注意力机制的做法是对输入的 Q,K,V 做**可学习的多头线性投影，而不是粗暴的切分**，然后分别进行注意力学习。不同的头的映射参数不同，增加了特征提取能力。
+  - 由于乘性注意力没有特别多可以学习的参数，拓展多头注意力机制的做法是对输入的 Q,K,V 做**可学习的多头线性投影，而不是粗暴的切分（但在代码实现的时候，为了不使用循环，一般先用一个大的 $W$ 实现 $d_{model} \to d_{model}$ 的投影，然后再切分）**，然后分别进行注意力学习。不同的头的映射参数不同，增加了特征提取能力。
 
   总的来说计算的公式为：
 
@@ -235,7 +241,7 @@ Since our model **contains no recurrence and no convolution**, in order for the 
 
 感受野更好了，处理长序列数据的能力更强了。但是从理论上来看，其优势在于对数据的假设更加宽松了，抓取信息的能力差了，因此如果有较多的数据就可以 Train 出来一个比较好的模型。
 
-### Experiment
+#### Experiment
 
 标签使用了 [**Label Smoothing**](https://zhuanlan.zhihu.com/p/477813062) 的 Trick
 
@@ -248,5 +254,15 @@ Since our model **contains no recurrence and no convolution**, in order for the 
 
 <img src="/Users/karry/KarryRen/Codes/Karry-Studies-AI/LiMu/HandsAI/README.assets/image-20231130182822977.png" alt="image-20231130182822977" style="zoom:40%;" />
 
+**预测过程**
+
+模型如何做的推理呢？训练的时候是一次性就放入 decoder 的，但是在预测时间就需要不断地进行自回归，一点点推理出最终的结果，最新的值作为 Q 前面的和自身作为 K 和 V。
+
+<img src="/Users/karry/KarryRen/Codes/Karry-Studies-AI/LiMu/HandsAI/README.assets/image-20231130191722063.png" alt="image-20231130191722063" style="zoom:40%;" />
+
 ### Code
+
+一个模块一个模块地从零开始实现，放在了代码中。实现方法和论文基本没有差别。
+
+
 
