@@ -79,7 +79,7 @@ LeNet、AlexNet、VGG 提出了很多不同的 Conv 模块，但是在每一层�
 
 > 整体上是 Encoder-Decoder 架构
 
-<img src="/Users/karry/KarryRen/Codes/Karry-Studies-AI/LiMu/HandsAI/README.assets/image-20231130134327275.png" alt="Transformer FrameWork " style="zoom:50%;" />
+<img src="./README.assets/image-20231130134327275.png" alt="Transformer FrameWork " style="zoom:50%;" />
 
 **Encoder**
 
@@ -137,7 +137,7 @@ x = LayerNorm(x + MLP(x))
 >
 > 对应的示意图如下：
 >
-> <img src="/Users/karry/KarryRen/Codes/Karry-Studies-AI/LiMu/HandsAI/README.assets/image-20231130191207794.png" alt="image-20231130191207794" style="zoom:60%;" />
+> <img src="./README.assets/image-20231130191207794.png" alt="image-20231130191207794" style="zoom:60%;" />
 >
 > 在语言任务中，每个输入的 case 都是切好的一个个句子，但是句子的长度可能不一致（一句话可能有 5 个词，一句话可能有 4 个），且模型对 seq 的要求是固定的。因此在构建数据集时为了保持输入的形状相同（seq 相同）就需要进行截断或者补全。
 >
@@ -184,7 +184,7 @@ An attention function can be described as **mapping a query and a set of key-val
 
   具体过程如下图所示：
 
-  <img src="/Users/karry/KarryRen/Codes/Karry-Studies-AI/LiMu/HandsAI/README.assets/image-20231130163117906.png" alt="image-20231130163117906" style="zoom:30%;" />
+  <img src="./README.assets/image-20231130163117906.png" alt="image-20231130163117906" style="zoom:30%;" />
 
   > 为了便于理解，在此给出一个 **self-attention** 的例子，也即 Q, K, V 的形状都相同。需要注意的是按照这种乘性注意力机制，计算 attention 分数必须保证 Q 和 K 的特征维度是一样的，但是 K 的特征维度可能与 Q, K 不等。
   >
@@ -192,7 +192,7 @@ An attention function can be described as **mapping a query and a set of key-val
   > Q = K = V, shape = (4, 3), 也即 4 个 seq, 3 个特征
   > ```
   >
-  > <img src="/Users/karry/KarryRen/Codes/Karry-Studies-AI/LiMu/HandsAI/README.assets/image-20231130161449330.png" alt="image-20231130161449330" style="zoom:50%;" />
+  > <img src="./README.assets/image-20231130161449330.png" alt="image-20231130161449330" style="zoom:50%;" />
 
 - Multi-Head Attention
 
@@ -203,11 +203,11 @@ An attention function can be described as **mapping a query and a set of key-val
 
   总的来说计算的公式为：
 
-  <img src="/Users/karry/KarryRen/Codes/Karry-Studies-AI/LiMu/HandsAI/README.assets/image-20231130164648775.png" alt="image-20231130164648775" style="zoom:40%;" />
+  <img src="./README.assets/image-20231130164648775.png" alt="image-20231130164648775" style="zoom:40%;" />
 
   计算的示意图如下：
 
-  <img src="/Users/karry/KarryRen/Codes/Karry-Studies-AI/LiMu/HandsAI/README.assets/image-20231130164737698.png" alt="image-20231130164737698" style="zoom:40%;" />
+  <img src="./README.assets/image-20231130164737698.png" alt="image-20231130164737698" style="zoom:40%;" />
 
 - Attention in Transformer
 
@@ -221,7 +221,7 @@ An attention function can be described as **mapping a query and a set of key-val
 
 **Feed Forward**
 
-<img src="/Users/karry/KarryRen/Codes/Karry-Studies-AI/LiMu/HandsAI/README.assets/image-20231130172307599.png" alt="image-20231130172307599" style="zoom:40%;" />
+<img src="./README.assets/image-20231130172307599.png" alt="image-20231130172307599" style="zoom:40%;" />
 
 本质上来说就是两层（含有一个隐藏层）的 MLP
 
@@ -246,7 +246,7 @@ Since our model **contains no recurrence and no convolution**, in order for the 
 
 为了表征输入的先后时序信息，引入了 PE，具体而言是对每一个时间步都构建一个长度为 512 的特征向量（任何两个时间步上该向量都不会重复！就像身份信息一样**唯一标识了此时间步的位置**），本文作者使用的 SIne-Cosine 函数。每一个点的具体值由其所在向量的 positon 以及其在该向量中的 index （影响周期）共同决定。
 
-<img src="/Users/karry/KarryRen/Codes/Karry-Studies-AI/LiMu/HandsAI/README.assets/image-20231130175729012.png" alt="image-20231130175729012 " style="zoom:40%;" />
+<img src="./README.assets/image-20231130175729012.png" alt="image-20231130175729012 " style="zoom:40%;" />
 
 #### Why Self-Attention ?
 
