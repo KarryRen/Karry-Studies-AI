@@ -1,5 +1,9 @@
 # 动手学深度学习 —— 李沐
 
+## 00 to 18 Fundation
+
+
+
 ## 27.GoogLeNet / Inception V3
 
 ### Motivation
@@ -49,6 +53,14 @@ LeNet、AlexNet、VGG 提出了很多不同的 Conv 模块，但是在每一层�
 
 ## 68.Transformer
 
+> [**Ref 1. Note in Zhihu**](https://zhuanlan.zhihu.com/p/338817680)
+>
+> **[Ref 2. Video](https://www.bilibili.com/video/BV1Kq4y1H7FL/?spm_id_from=333.999.0.0)**
+>
+> **[Ref 3. Paper Reading](https://www.bilibili.com/video/BV1pu411o7BE/?spm_id_from=333.999.0.0)**
+>
+> **[Ref 4. Book](https://zh-v2.d2l.ai/chapter_attention-mechanisms/transformer.html)**
+
 ### Paper Reading
 
 #### Motivation
@@ -82,7 +94,7 @@ LeNet、AlexNet、VGG 提出了很多不同的 Conv 模块，但是在每一层�
 
 ```python
 x = LayerNorm(x + MultiHeadAttention(x))
-x = LayerNomr(x + MLP(x))
+x = LayerNorm(x + MLP(x))
 ```
 
 其中，LayerNorm 操作是极为关键的，也正是因为 Transformer，LN 才进入了大众的视野，在语言任务中被更多人熟知并使用。
@@ -130,13 +142,12 @@ x = LayerNomr(x + MLP(x))
 > 在语言任务中，每个输入的 case 都是切好的一个个句子，但是句子的长度可能不一致（一句话可能有 5 个词，一句话可能有 4 个），且模型对 seq 的要求是固定的。因此在构建数据集时为了保持输入的形状相同（seq 相同）就需要进行截断或者补全。
 >
 > ```python
-> 对于一句有 4 个词的话, 其 one-hot 编码后 shape 为 (4, word_size) 其中 word_size 是词的总样数。对于一句有 5 个词的话其 shape 为 (5, word_size)。
-> 此时模型设定的 seq = 5, 那么就需要对第一句话填 0, 使之形状为 （5, word_size）
+> 对于一句有 4 个词的话, 其 one-hot 编码后 shape 为 (4, word_size) 其中 word_size 是词的总样数。对于一句有 5 个词的话其 shape 为 (5, word_size)。此时模型设定的 seq = 5, 那么就需要对第一句话填 0, 使之形状为 （5, word_size）
 > ```
->
-> 由于句子长度不同而产生了截断或补全进而导致了在 batch 维度上计算均值方差是没有意义的。李沐老师举了一个例子，如果在模型训练的时候遇到的都是截断的比较短的句子，求的均值方差是针对短句的，那么在推理时如果遇到长句子就没有效果了。如果一句话中每一个词的语意特征分布相同的话，在每一句话的 seq 和 f 维度上进行 Norm 或许是更加正确的选择，也就是进行 LN。
->
-> 总的来说，由于语言任务中每句话的长短可能不一致，由于强行截断或补充导致了数据分布不在统一，因此针对每个 case 的 LN 比针对每个feature 的 BN 可能表现更佳。
+> 
+>由于句子长度不同而产生了截断或补全进而导致了在 batch 维度上计算均值方差是没有意义的。李沐老师举了一个例子，如果在模型训练的时候遇到的都是截断的比较短的句子，求的均值方差是针对短句的，那么在推理时如果遇到长句子就没有效果了。如果一句话中每一个词的语意特征分布相同的话，在每一句话的 seq 和 f 维度上进行 Norm 或许是更加正确的选择，也就是进行 LN。
+> 
+>总的来说，由于语言任务中每句话的长短可能不一致，由于强行截断或补充导致了数据分布不在统一，因此针对每个 case 的 LN 比针对每个feature 的 BN 可能表现更佳。
 
 **Decoder**
 
@@ -188,7 +199,7 @@ An attention function can be described as **mapping a query and a set of key-val
   始终要记住 Attention 的本质是对时序维度信息的抓取（求权重）以及汇聚（加权和）。因此一切关于 Attention 的设计都是为了提高特征抓取能力。此处设计官方解释的好处如下（从两个方面**提高了特征提取能力**）：
 
   - Multi-head attention allows the model to jointly attend to information from different representation subspaces at different positions. With a single attention head, averaging inhibits this. 用人话来讲就是模拟多 Channel **提取更多维度**的表征信息。
-  - 由于乘性注意力没有特别多可以学习的参数，拓展多头注意力机制的做法是对输入的 Q,K,V 做**可学习的多头线性投影，而不是粗暴的切分（但在代码实现的时候，为了不使用循环，一般先用一个大的 $W$ 实现 $d_{model} \to d_{model}$ 的投影，然后再切分）**，然后分别进行注意力学习。不同的头的映射参数不同，增加了特征提取能力。
+  - 由于乘性注意力没有特别多可以学习的参数，拓展多头注意力机制的做法是对输入的 Q,K,V 做**可学习的多头线性投影，而不是粗暴的切分（但在代码实现的时候，为了不使用循环，一般先用一个大的 $W$ 实现 $d_{model} \to d_{model}$ 的投影，然后再切分）**，然后分别进行注意力学习。不同的头的映射参数不同，增加了特征提取能力。**这一部分的代码底层需要仔细体会。**
 
   总的来说计算的公式为：
 
@@ -202,7 +213,7 @@ An attention function can be described as **mapping a query and a set of key-val
 
   从框架图中就可以看出 Transformer 中用到的全部都是**自注意力机制**，如果不考虑多头的话，其每次注意力的本质就是顺次时间步的特征做 Q 和 t 个时间步下的 K 做 Attention 得到 t 个权重（自己对自己的 Attention 肯定是最高的），然后与对应时间步的 V 进行加权求和得到该 Q 权重下的输出（这一段很绕，但是很容易理解，抓住 Q 是产生权重的关键，有多少个 Q 就有多少组权重，Q 的数量和最终输出的数量是相同的就可以了）。代码实现可以用 for-loop 来做，但是为了并行就需要设计成矩阵乘法，上面的图中展示了可视化运行过程。
 
-  总的来说 Transformer 中有三种 Multi-Head Attention，因为特征的形状基本保持一致，所以很容易进行搭建。
+  总的来说 Transformer 中有**三种 Multi-Head Attention**，因为特征的**形状基本保持一致**，所以很容易进行搭建。
 
   - 在 Encoder 中就是最基础的
   - 在 Decoder 的第一层是针对目标语言的 Attention，因为看不到后面的 K 所以需要加入 Mask 
@@ -235,7 +246,7 @@ Since our model **contains no recurrence and no convolution**, in order for the 
 
 为了表征输入的先后时序信息，引入了 PE，具体而言是对每一个时间步都构建一个长度为 512 的特征向量（任何两个时间步上该向量都不会重复！就像身份信息一样**唯一标识了此时间步的位置**），本文作者使用的 SIne-Cosine 函数。每一个点的具体值由其所在向量的 positon 以及其在该向量中的 index （影响周期）共同决定。
 
-<img src="/Users/karry/KarryRen/Codes/Karry-Studies-AI/LiMu/HandsAI/README.assets/image-20231130175729012.png" alt="image-20231130175729012 " style="zoom:50%;" />
+<img src="/Users/karry/KarryRen/Codes/Karry-Studies-AI/LiMu/HandsAI/README.assets/image-20231130175729012.png" alt="image-20231130175729012 " style="zoom:40%;" />
 
 #### Why Self-Attention ?
 
@@ -252,17 +263,6 @@ Since our model **contains no recurrence and no convolution**, in order for the 
 
 其他的一些超参可以随着这几个参数的变化而变化。
 
-<img src="/Users/karry/KarryRen/Codes/Karry-Studies-AI/LiMu/HandsAI/README.assets/image-20231130182822977.png" alt="image-20231130182822977" style="zoom:40%;" />
-
-**预测过程**
-
-模型如何做的推理呢？训练的时候是一次性就放入 decoder 的，但是在预测时间就需要不断地进行自回归，一点点推理出最终的结果，最新的值作为 Q 前面的和自身作为 K 和 V。
-
-<img src="/Users/karry/KarryRen/Codes/Karry-Studies-AI/LiMu/HandsAI/README.assets/image-20231130191722063.png" alt="image-20231130191722063" style="zoom:40%;" />
-
 ### Code
 
-一个模块一个模块地从零开始实现，放在了代码中。实现方法和论文基本没有差别。
-
-
-
+一个模块一个模块地从零开始实现，放在了代码中。实现方法和论文基本没有差别。在实际用的时候直接套用 torch.nn 中写好的模块。
