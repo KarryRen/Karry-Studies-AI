@@ -1,53 +1,81 @@
 # 动手学深度学习 —— 李沐
 
-## 00 to 18 Fundation
+> [**课程网站**](https://courses.d2l.ai/zh-v2/)；[**电子教材**](https://zh-v2.d2l.ai/chapter_preface/index.html)；[**教材 Repo**](https://github.com/d2l-ai/d2l-zh)；
+>
+> 本课程我在 2022 年系统性学习过本课程，后续在科研和实践过程中还是觉得自己的一些理解不够到位，同时对于一些知识也有了新的看法和体会，因此在 2024 年初又开始重新学习，主要为了实现以下三点贡献：
+>
+> 1. **系统性地梳理框架**，填充自己的学习实践感悟，构建起清晰且扎实地**深度学习脉络**
+> 2. 搭建起自己的**深度学习知识库**，方便后续相关内容的收集与整理，本笔记将成为个人的**深度学习基础宝典**
+> 3. 书写**清晰完整的笔记内容**，为交流分享提供便利
+>
+> 学习时沐神告诫我们要始终询问 What, How, Why。自己未来的规划也想在 Why 和 How 上多下文章，因此要始终勤于思考，善于发问，善于总结和延伸！共勉！
 
+## 0～18. Fundation
 
+### 线性代数基础
 
-## 27.GoogLeNet / Inception V3
+向量乘法的本质是扭曲空间。
 
-### Motivation
+L1 范数和 L2 范数的计算公式分别为：
+$$
+\Vert x \Vert_1 = \sum_{i = 1}^n\{x_i\} \\
+\Vert x \Vert_2 = \sqrt{\sum_{i = 1}^n{x_i^2}}
+$$
+对于矩阵而言，其 Frobenius Norm 为：
+$$
+\Vert X \Vert = \sqrt{\sum_{i=0}^n\sum_{j=0}^m{x_{i,j}^2}}
+$$
 
-LeNet、AlexNet、VGG 提出了很多不同的 Conv 模块，但是在每一层只能选择一个。GoogLeNet 的提出就是不想做选择，想全都要。
+### 矩阵求导
 
-### Inception Module
+**亚导数**是指对不可导函数的不可导点设定一个固定的值，比如 $y = |x|$ 或 $y = \mathrm{Relu}(x)$ 。
 
-#### Inception V1
+**向量求导**，关键是**搞清楚形状**，正如下面这幅图所示，存在四种情况。在实际应用中，尤其是卷积等操作往往都是更高维度的计算，但一般而言都存在求和或者求平均（Loss 一般是个标量）的操作，所以很少会出现矩阵对矩阵求导出现高维矩阵的情况，在此不赘述矩阵间的求导运算。
 
-**优势一：全部都要无需选择**
+<img src="./README.assets/image-20240111220055310.png" alt="image-20240111220055310" style="zoom:50%;" />
 
-1x1 Conv，3x3 Conv，5x5 Conv，3x3 MaxPool 全都要。增加了宽度，从而增加抽取信息的能力。
+我们分别对这四种情况构造一个例子。
 
-**优势二：降低参数量**
+- **标量对标量求导**： $y = x^2$，求导可得 $\frac{\mathrm{d}y}{\mathrm{d}x} = 2x$，那么当 $x = 2$ 时导数为 $4$
 
-其中 1x1 Conv 头的目的是降低通道数来降低参数个数和计算复杂度，尤其是在 3x3 Conv 和 5x5 Conv 前面压缩通道，可以大量减少参数量（可以手算）。
+- **标量对标量求导**：$x$ 是一个列向量，$y$ 是一个标量，导数是一个行向量，一个简单的例子 $y = x_1^2 + x_2^2$，求导可得 $\frac{\mathrm{d}y}{\mathrm{d}x} = \{\frac{\mathrm{d}y}{\mathrm{d}x_1},\frac{\mathrm{d}y}{\mathrm{d}x_2}\}$，从数学形式上或许不好理解其导数的含义，但是从形状上可以得到，**导数和等高线的切线正交向外**，也即数值增长最快的地方。
 
-#### Inception-BN (V2)
+- **向量对标量求导**：$y$ 是一个列向量 $x$ 是一个标量，导数是一个列向量，一个简单的例子 $y_1 = 2x, y_2 = 3x$，求导可得 $\frac{\mathrm{d}y}{\mathrm{d}x} = \{\frac{\mathrm{d}y_1}{\mathrm{d}x},\frac{\mathrm{d}y_2}{\mathrm{d}x}\}$。
 
-使用了 batch normalization
+- **向量对向量求导**：得到一个矩阵，其含义是十分清晰简单的，也就是一个列向量 $y$ 的每一个元素对另一个列向量 $x$ 求导得到一个行向量做行。
 
-#### Inception-V3
+  <img src="./README.assets/image-20240111221705587.png" alt="image-20240111221705587" style="zoom:30%;" />
 
-修改了 Inception 块，目前还是用得比较多。
+**向量的链式求导法则**是梯度下降的核心所在，本质是对上述四种情况的组合，下面有一个**线性回归的例子**：
 
-- 替换 5x5 为多个 3x3
-- 替换 5x5 为 1x7 和 7x1 卷积层
-- 替换 3x3 为 1x3 和 3x1 卷基层（还可以降低参数量）
-- 更深
+- 首先，是只有一个 Sample ，每个 Sample 有 n 维 Feeature 的例子（Loss 是 MSE）
 
-#### Inception-V4
+  <img src="./README.assets/image-20240111223049250.png" alt="image-20240111223049250" style="zoom:30%;" />
 
-使用了残差连接
+- 其次，是有 bs (m) 个 Sample，每个 Sample 仍然有 n 维 Feature 的例子（Loss 是 MSE 求和）
 
-### Framework
+  <img src="./README.assets/image-20240111223442721.png" alt="image-20240111223442721" style="zoom:33%;" />
 
-**更小的宽口，更多的通道**
+**计算图自动求导**，TF 是需要用户显示构造计算图，Pytorch 则不需要是隐式的。自动求导有两种方式，一种是正向累计，一种是反向传播。对于一个有 n 个计算节点的计算图而言，二者相似点在于内存复杂度，都需要**保存计算图中每一个节点的值也即 O(n)**，所以都十分消耗空间；不同点在于，反向求导的计算整张图复杂度为 O(n)，而正向累计计算每一个节点的复杂度都是 O(n)。框架自动求导都选择反向传播的思路，在训练时 `.train()` 由于存在 `forward()` 和 `backward()` 两个操作，所以比较耗时。
 
-前面的阶段卷积层窗口更小，但是卷积的数量更多，通道数也更多。
+因此在构造神经网络 `forward()` 函数的时候，**就是在构造一张计算图**，如果想要将其中的某个值从图中分离出来，就可以用 `.detach()` 来做，来看一个例子：
 
-**每一个 Block 中的通道构造**
+```python
+x = torch.range(0, 3, requires_grad=True)
+u = x * x
+y = u * x
+y.sum().backward()
+print(x.grad)
+# [0, 3, 12, 27] = 3x^2
 
-构造的 Channle 数量就是搜出来的，因此这也是 GoogLeNet 最大的缺点之一。但是大部分都是 2 的 n 次方。自然引出了一个具体的问题：如何调参？HPO，目前已经有很多的方法了。Trick 的优化极为重要。
+x.grad.zero_()
+
+u = x * x
+y = u.detach() * x
+y.sum().backward()
+print(x.grad)
+# [0, 1, 4, 9] = x^2
+```
 
 
 
@@ -99,7 +127,7 @@ x = LayerNorm(x + MLP(x))
 
 其中，LayerNorm 操作是极为关键的，也正是因为 Transformer，LN 才进入了大众的视野，在语言任务中被更多人熟知并使用。
 
-> **Why LayerNorm ?**
+> **Why LayerNorm ?** [Ref.](https://zhuanlan.zhihu.com/p/492803886)
 >
 > 我们再回顾一下 BatchNorm（特征维度的标准化）和 LayerNorm（样本维度的标准化）的计算方式定义
 >

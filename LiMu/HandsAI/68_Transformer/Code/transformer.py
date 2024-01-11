@@ -3,8 +3,9 @@
 # @Author  : Karry Ren
 
 """The transformer network.
-Include the encoder and decoder.
-There are also train and predict.
+  Include the encoder and decoder.
+  There are also train and predict.
+
 """
 
 import math
@@ -177,6 +178,7 @@ class EncoderDecoder(nn.Module):
             if save_attention_weights:
                 attention_weights.append(self.decoder.attention_weights)
         return torch.concat(outputs[1:], 1), attention_weights
+
 
 if __name__ == '__main__':
     batch_size = 3
