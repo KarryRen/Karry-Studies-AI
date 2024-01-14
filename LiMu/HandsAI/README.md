@@ -77,6 +77,89 @@ print(x.grad)
 # [0, 1, 4, 9] = x^2
 ```
 
+### [线性回归](https://zh-v2.d2l.ai/chapter_linear-networks/linear-regression.html)
+
+线性回归是入门深度学习的一个经典例子，线性模型在本质上是一个**单层线性神经网络**，以此为出发点，就可以明白三个问题：1.什么是模型？2.什么是损失函数？3.怎么样优化模型？
+
+**推导显示解**
+
+> 线性模型是最简单的神经网络模型，也是从现在开始所学习的唯一具有显示解的模型，其具有极强的代表意义，但是太过简单。
+
+其实在计量经济学和统计学中，我们推导过单自变量的**二元线性回归**和多自变量的**多元线性回归**的解，这些问题都存在明确且严格的解析解，因为参数较少所以也比较容易推导。对于更加普遍的多元线性回归，我们也可以得到更加统一的解析解，严格推导过程如下：设 $\bold{X} \in \mathbb{R}^{n\times d}$ 表示整个数据集中的 $n$ 个含有 $f$ 个特征的样本，其中 $\bold{X}$ 的每一行代表一个样本，每一列是一种特征。对于特征集合 $\bold{X}$ 预测值 $\hat{\bold{y}}\in \mathbb{R}^n$ 可以通过矩阵-向量乘法表示为：
+$$
+\hat{\bold{y}} = \bold{Xw} + b
+$$
+为了简化推导，在此我们只考虑 $\bold{w}\in\mathbb{R}^d$ ，将上式修改为：
+$$
+\hat{\bold{y}} = \bold{Xw}
+$$
+选择**损失函数**为 MSE，那么可以得到：
+$$
+L(\bold{w}) = \frac{1}{n}\sum_{i=1}^n(y_i - \hat{y}_i)^2= \frac{1}{n} ||\bold{y} - \hat{\bold{y}}||^2 = \frac{1}{n}||\bold{y} - \bold{Xw} - b||^2
+$$
+下面我们的**优化目标**就是找到 $\bold{w}\in\mathbb{R}^d$ 使得 $L(\bold{w})$ 最小，因为线性模型的损失函数是一个凸函数，因此令 $\frac{\mathrm{d}(L)}{\mathrm{d}(\mathrm{\bold{w})}} = 0$ 进而求解 $\bold{w}$ 可以使得损失函数最小，为了简化运算，此处将偏差加入权重，做一个简单的调整：
+$$
+\bold{X}\leftarrow[\bold{X}, 1], \bold{w}\leftarrow[\bold{w}, b](vertical)
+$$
+进而令：
+$$
+\frac{\mathrm{d}(||\bold{y} - \bold{Xw}||^2)}{\mathrm{d}(\mathrm{\bold{w})}} = 0
+$$
+为了求解导数，我们在此处设：
+$$
+\bold{a} = \bold{Xw} \\
+\bold{b} = \bold{y} - \bold{a}
+$$
+那么：
+$$
+\begin{align}
+\frac{\mathrm{d}(||\bold{y} - \bold{Xw}||^2)}{\mathrm{d}(\mathrm{\bold{w})}} &= \frac{\mathrm{d}(||\bold{b}||^2)}{d(\bold{w})}
+\\ &= \frac{\mathrm{d}(||\bold{b}||^2)}{\mathrm{d}(\bold{b})} \times \frac{\mathrm{d}(\bold{b})}{\mathrm{d}(\bold{a})} \times \frac{\mathrm{d}(\bold{a})}{\mathrm{d}(\bold{w})} 
+\\&= 2\bold{b}^T \times \bold{-I} \times \bold{X}
+\\&=-2(\bold{Xw} - \bold{y})^T\times\bold{X}
+\end{align}
+$$
+因此令：
+$$
+-2(\bold{Xw} - \bold{y})^T\times\bold{X} = 0
+$$
+进而可得解析解为：
+$$
+\bold{Xw}^T\bold{X} - \bold{y}^T\bold{X} = 0\\
+\bold{w}^T\bold{X}^T\bold{X} = \bold{y}^T\bold{X}\\
+\bold{w}^*{^T} = \bold{y}^T\bold{X}(\bold{X}^T\bold{X})^{-1} \\
+\bold{w}^* = (\bold{X}^T\bold{X})^{-1}\bold{X}^T\bold{y}
+$$
+**随机梯度下降算法**
+
+算法在实际上只能采用小批量随机梯度下降，核心只有两步，随机的含义是每次采样都是随机抽取：
+
+- 初始化模型参数的值，如随机初始化；
+- 从数据集中**随机抽取**小批量样本且在负梯度的方向上更新参数，并不断迭代这一步骤。 
+
+在实际应用中需要注意：
+
+- 因为一次性载入数据集中的所有数据不现实（内存爆炸），所以需要随机抽取小批量数据计算批量 loss 近似表示整体 loss；
+- 批量大小和学习率之间需要相互协调，一般来说 batch size 扩大几倍，lr 就该扩大几倍。
+
+**实现线性回归**
+
+详情见代码 `/00_to_18_Fundation/linear_regression(_scrach).py`
+
+### 关于超参的常问细节：
+
+- 几个超参：`lr`、`bs`、`the reduction of MSE Loss` 的设置和梯度更新函数是紧密相关的，如果我们将 `reduction` 设置为 `mean` 那么 `lr` 自然应该调大一些。 [**[Definition.]**](https://zhuanlan.zhihu.com/p/277487038)  [**[Detail.]**](https://zhuanlan.zhihu.com/p/83626029)
+- `Epoch` 设置多少一般是人为决定，可以用一些 `Early Stop` 的方式判断是否收敛
+- 模型初始化也有一定的方式，以下是一些参考：
+  - [**Default Ways**](https://blog.csdn.net/luo3300612/article/details/97675312)
+  - [**Some Initializing Ways**](https://www.cnblogs.com/jfdwd/p/11269622.html)
+  - [**Why CAN'T be all ZERO ?**](https://www.cnblogs.com/hejunlin1992/p/13022391.html)
+  - [**How to Init the Parameter ?**](https://blog.csdn.net/PanYHHH/article/details/107338657)
+
+### [SoftMax 回归](https://zh-v2.d2l.ai/chapter_linear-networks/softmax-regression.html)
+
+
+
 
 
 ## 68.Transformer
