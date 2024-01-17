@@ -150,11 +150,12 @@ $$
 
 - 几个超参：`lr`、`bs`、`the reduction of MSE Loss` 的设置和梯度更新函数是紧密相关的，如果我们将 `reduction` 设置为 `mean` 那么 `lr` 自然应该调大一些。 [**[Definition.]**](https://zhuanlan.zhihu.com/p/277487038)  [**[Detail.]**](https://zhuanlan.zhihu.com/p/83626029)
 - `Epoch` 设置多少一般是人为决定，可以用一些 `Early Stop` 的方式判断是否收敛
-- 模型初始化也有一定的方式，以下是一些参考：
+- 模型参数初始化也有一定的方式，以下是一些参考：
   - [**Default Ways**](https://blog.csdn.net/luo3300612/article/details/97675312)
   - [**Some Initializing Ways**](https://www.cnblogs.com/jfdwd/p/11269622.html)
   - [**Why CAN'T be all ZERO ?**](https://www.cnblogs.com/hejunlin1992/p/13022391.html)
   - [**How to Init the Parameter ?**](https://blog.csdn.net/PanYHHH/article/details/107338657)
+- What is the relationship between `model.eval()` and `torch.no_grad()`. [**Ref.**](https://blog.csdn.net/qq_41813454/article/details/135129279)
 
 ### [SoftMax 回归](https://zh-v2.d2l.ai/chapter_linear-networks/softmax-regression.html)
 

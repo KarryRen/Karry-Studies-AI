@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4a4f6262-f311-494c-a0f0-1617a9ac261b" name="Changes" comment="fundation" />
+    <list default="true" id="4a4f6262-f311-494c-a0f0-1617a9ac261b" name="Changes" comment="how the random seed matter ?" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -47,7 +47,7 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager" selected="Python.a">
+  <component name="RunManager" selected="Python.random_seed">
     <configuration name="a" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="HandsAI" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -62,28 +62,6 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/00_to_18_Fundation/a.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="autograd" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="HandsAI" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/00_to_18_Fundation" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/00_to_18_Fundation/autograd.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -158,13 +136,35 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="random_seed" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="HandsAI" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/00_to_18_Fundation" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/00_to_18_Fundation/random_seed.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.random_seed" />
         <item itemvalue="Python.a" />
         <item itemvalue="Python.linear_regression_scrach" />
         <item itemvalue="Python.linear_refression" />
         <item itemvalue="Python.linear_regression" />
-        <item itemvalue="Python.autograd" />
       </list>
     </recent_temporary>
   </component>
@@ -179,6 +179,9 @@
       <workItem from="1704977021624" duration="3178000" />
       <workItem from="1705216099881" duration="9394000" />
       <workItem from="1705295748888" duration="695000" />
+      <workItem from="1705396374509" duration="186000" />
+      <workItem from="1705397778496" duration="345000" />
+      <workItem from="1705495375588" duration="2023000" />
     </task>
     <task id="LOCAL-00001" summary="fundation">
       <option name="closed" value="true" />
@@ -188,7 +191,23 @@
       <option name="project" value="LOCAL" />
       <updated>1704986753597</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="fundation">
+      <option name="closed" value="true" />
+      <created>1705399608150</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1705399608150</updated>
+    </task>
+    <task id="LOCAL-00003" summary="how the random seed matter ?">
+      <option name="closed" value="true" />
+      <created>1705496802221</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1705496802221</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -196,10 +215,12 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="fundation" />
-    <option name="LAST_COMMIT_MESSAGE" value="fundation" />
+    <MESSAGE value="how the random seed matter ?" />
+    <option name="LAST_COMMIT_MESSAGE" value="how the random seed matter ?" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/HandsAI$a.coverage" NAME="a Coverage Results" MODIFIED="1705295822176" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/00_to_18_Fundation" />
+    <SUITE FILE_PATH="coverage/HandsAI$a.coverage" NAME="a Coverage Results" MODIFIED="1705398037925" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/00_to_18_Fundation" />
+    <SUITE FILE_PATH="coverage/HandsAI$random_seed.coverage" NAME="random_seed Coverage Results" MODIFIED="1705496769068" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/00_to_18_Fundation" />
     <SUITE FILE_PATH="coverage/HandsAI$linear_refression.coverage" NAME="linear_refression Coverage Results" MODIFIED="1705229092185" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/00_to_18_Fundation" />
     <SUITE FILE_PATH="coverage/HandsAI$linear_regression_scrach.coverage" NAME="linear_regression_scrach Coverage Results" MODIFIED="1705229931798" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/00_to_18_Fundation" />
     <SUITE FILE_PATH="coverage/HandsAI$autograd.coverage" NAME="autograd Coverage Results" MODIFIED="1704985436795" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/00_to_18_Fundation" />

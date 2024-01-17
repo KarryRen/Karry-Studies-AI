@@ -131,7 +131,7 @@ if __name__ == '__main__':
             l.backward()
             # 4. update the param
             optimizer([model.w, model.b], LR, BATCH_SIZE)
-        # Valid
+        # Valid the model
         with torch.no_grad():
             prediction = model.forward(features)
             train_l = loss(prediction, labels)

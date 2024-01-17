@@ -29,11 +29,13 @@ if __name__ == '__main__':
 
     optimizer = torch.optim.SGD(params=model.parameters(), lr=LR)
 
+    # ---- Step 4. Begin train & valid ---- #
     for epoch in range(NUM_EPOCH):
         # Train (Different epoch have different sequence to read data !!)
+        model.train()
         for X, y in data_loader:
             # 0. zero_grad, pytorch will accumulate the grad
-            # we must do this !
+            # MUST do this !
             optimizer.zero_grad()
             # 1. forward
             y_pred = model(X)
@@ -43,7 +45,8 @@ if __name__ == '__main__':
             l.backward()
             # 4. update the param
             optimizer.step()
-        # Valid
+        # Valid the model
+        model.eval()
         with torch.no_grad():
             prediction = model.forward(features)
             train_l = loss(prediction, labels)
