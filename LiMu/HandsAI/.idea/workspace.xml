@@ -4,7 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4a4f6262-f311-494c-a0f0-1617a9ac261b" name="Changes" comment="how the random seed matter ?" />
+    <list default="true" id="4a4f6262-f311-494c-a0f0-1617a9ac261b" name="Changes" comment="how the random seed matter ?">
+      <change beforePath="$PROJECT_DIR$/.idea/HandsAI.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -181,7 +188,7 @@
       <workItem from="1705295748888" duration="695000" />
       <workItem from="1705396374509" duration="186000" />
       <workItem from="1705397778496" duration="345000" />
-      <workItem from="1705495375588" duration="2023000" />
+      <workItem from="1705495375588" duration="2024000" />
     </task>
     <task id="LOCAL-00001" summary="fundation">
       <option name="closed" value="true" />
