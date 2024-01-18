@@ -2,8 +2,6 @@
 
 Documenting Karry's process of learning artificial intelligence for communication.
 
-Here
-
 ## 📖 [LiMu](https://space.bilibili.com/1567748478)
 
 Learning the basic knowledge about Deep Learning and reading traditional paper.
