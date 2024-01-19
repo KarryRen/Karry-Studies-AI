@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SshConfigs">
+    <configs>
+      <sshConfig authType="OPEN_SSH" connectionConfig="{&quot;serverAliveInterval&quot;:300}" host="10.214.32.32" id="609dd065-4145-4242-8ee4-aaa9f46340e2" port="22" customName="Higgs-HPC" nameFormat="CUSTOM" username="renkai" useOpenSSHConfig="true">
+        <option name="customName" value="Higgs-HPC" />
+      </sshConfig>
+    </configs>
+  </component>
+</project>
