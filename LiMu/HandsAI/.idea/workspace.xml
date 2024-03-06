@@ -5,9 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4a4f6262-f311-494c-a0f0-1617a9ac261b" name="Changes" comment="how the random seed matter ?">
-      <change afterPath="$PROJECT_DIR$/51_to_62_SequenceModel/TextDataset/text_dataset.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/00_to_18_Fundation/linear_regression_scrach.py" beforeDir="false" afterPath="$PROJECT_DIR$/00_to_18_Fundation/linear_regression_scrach.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -54,6 +52,7 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/51_to_62_SequenceModel/TextDataset" />
       <recent name="$PROJECT_DIR$/51_to_62_SequenceModel/52_TextPreprocess" />
     </key>
   </component>
@@ -219,7 +218,7 @@
       <workItem from="1708995238514" duration="600000" />
       <workItem from="1709019551521" duration="3000" />
       <workItem from="1709019996197" duration="15000" />
-      <workItem from="1709690654820" duration="14600000" />
+      <workItem from="1709690654820" duration="15192000" />
     </task>
     <task id="LOCAL-00001" summary="fundation">
       <option name="closed" value="true" />
@@ -264,7 +263,7 @@
     <SUITE FILE_PATH="coverage/HandsAI$linear_regression_scrach.coverage" NAME="linear_regression_scrach Coverage Results" MODIFIED="1705229931798" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/00_to_18_Fundation" />
     <SUITE FILE_PATH="coverage/HandsAI$autograd.coverage" NAME="autograd Coverage Results" MODIFIED="1704985436795" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/00_to_18_Fundation" />
     <SUITE FILE_PATH="coverage/HandsAI$linear_regression.coverage" NAME="linear_regression Coverage Results" MODIFIED="1705226192556" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/00_to_18_Fundation" />
-    <SUITE FILE_PATH="coverage/HandsAI$text_dataset.coverage" NAME="text_dataset Coverage Results" MODIFIED="1709717574725" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/51_to_62_SequenceModel/TextDataset" />
+    <SUITE FILE_PATH="coverage/HandsAI$text_dataset.coverage" NAME="text_dataset Coverage Results" MODIFIED="1709717882769" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/51_to_62_SequenceModel/TextDataset" />
     <SUITE FILE_PATH="coverage/HandsAI$download_data.coverage" NAME="download_data Coverage Results" MODIFIED="1709709503421" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/51_to_62_SequenceModel/52_TextPreprocess" />
     <SUITE FILE_PATH="coverage/HandsAI$text_preprocess.coverage" NAME="text_preprocess Coverage Results" MODIFIED="1709712771519" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/51_to_62_SequenceModel/52_TextPreprocess" />
   </component>

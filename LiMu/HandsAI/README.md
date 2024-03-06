@@ -228,8 +228,6 @@ $$
 
  
 
-
-
 ## 68.Transformer
 
 > [**Ref 1. Note in Zhihu**](https://zhuanlan.zhihu.com/p/338817680)
