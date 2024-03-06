@@ -2,7 +2,7 @@
 # @Time    : 2024/1/14 16:38
 # @Author  : Karry Ren
 
-"""Realization of the linear_regression from scratch"""
+""" Realization of the linear_regression from scratch """
 
 import torch
 import random

@@ -2,9 +2,8 @@
 # @Time    : 2023/11/30 19:22
 # @Author  : Karry Ren
 
-"""The transformer network.
-  Include the encoder and decoder.
-  There are also train and predict.
+""" The transformer network.
+    Include the encoder and decoder, here are also train and predict.
 
 """
 
@@ -16,13 +15,13 @@ from modules import PositionalEncoding, TransformerEncoderBlock, TransformerDeco
 
 
 class TransformerEncoder(nn.Module):
-    """The Transformer encoder."""
+    """ The Transformer encoder. """
 
     def __init__(self, input_size: int, num_layers: int,
                  query_size: int, key_size: int, value_size: int,
                  num_hiddens: int, num_heads: int, norm_shape: list,
                  ffn_num_hiddens: int, dropout: float, use_bias: bool = False):
-        """Init Transformer Encoder.
+        """ Init Transformer Encoder.
 
         :param input_size: the size of input vector
         :param num_layers: the num of encoder blocks
@@ -60,6 +59,7 @@ class TransformerEncoder(nn.Module):
         :param X: the input, shape=(bs, seq, feature_dim)
         :param valid_lens: shape=(bs)
         :return: the encoded feature
+
         """
 
         # ---- Step 1. Embedding and Positional Encoding ---- #
@@ -78,11 +78,13 @@ class TransformerEncoder(nn.Module):
 
 
 class TransformerDecoder(nn.Module):
+    """ The Transformer Decoder. """
+
     def __init__(self, input_size: int, num_layers: int,
                  query_size: int, key_size: int, value_size: int,
                  num_hiddens: int, num_heads: int, norm_shape: list,
                  ffn_num_hiddens: int, dropout: float):
-        """Init Transformer Encoder.
+        """ Init Transformer Encoder.
 
         :param input_size: the size of input vector
         :param num_layers: the num of encoder blocks
@@ -95,6 +97,7 @@ class TransformerDecoder(nn.Module):
         :param ffn_num_hiddens: the hiddens of ffn input
         :param dropout: dropout ratio
         :param use_bias: use bias or not
+
         """
 
         super(TransformerDecoder, self).__init__()
@@ -127,6 +130,7 @@ class TransformerDecoder(nn.Module):
             - training, shape=(bs, seq, size)
             - predict, when t, shape=(bs, t-1, size)
         :param state: the init state of decoder.
+
         """
 
         # ---- Step 1. Embedding and Positional Encoding ---- #
@@ -145,12 +149,13 @@ class TransformerDecoder(nn.Module):
 
 
 class EncoderDecoder(nn.Module):
-    """The base class for the encoder--decoder architecture."""
+    """ The base class for the encoder--decoder architecture. """
 
     def __init__(self, encoder: nn.Module, decoder: nn.Module):
-        """Init the encoder and decoder.
+        """ Init the encoder and decoder.
         :param encoder: the encoder module
         :param decoder: the decoder module
+
         """
 
         super().__init__()
@@ -158,13 +163,15 @@ class EncoderDecoder(nn.Module):
         self.decoder = decoder
 
     def forward(self, enc_X, dec_X, *args):
+        """ How to train. """
+
         enc_all_outputs = self.encoder(enc_X, *args)
         dec_state = self.decoder.init_state(enc_all_outputs, *args)
         # return decoder output only, don't get the state
         return self.decoder(dec_X, dec_state)[0]
 
     def predict_step(self, batch, device, num_steps, save_attention_weights=False):
-        """How to predict."""
+        """ How to predict. """
 
         batch = batch.to(device=device)
         src, tgt, src_valid_len, _ = batch

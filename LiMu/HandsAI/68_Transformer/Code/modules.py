@@ -2,8 +2,9 @@
 # @Time    : 2023/11/30 19:28
 # @Author  : Karry Ren
 
-"""The modules of transformer.
-Ref. d2l
+""" The modules of transformer.
+Ref. d2l package.
+
 """
 
 import torch
@@ -181,7 +182,7 @@ class MultiHeadAttention(nn.Module):
         return multi_head_attention_output
 
     def transpose_qkv(self, X):
-        """Transposition for parallel computation of multiple attention heads.
+        """ Transposition for parallel computation of multiple attention heads.
         Avoid for-loop num_heads times computation.
         Transpose the num_heads dim to bs.
 
@@ -208,7 +209,7 @@ class MultiHeadAttention(nn.Module):
 
 
 class AddNorm(nn.Module):
-    """Add & Norm.
+    """ Add & Norm.
     The residual connection followed by layer normalization.
     """
 
@@ -225,7 +226,7 @@ class AddNorm(nn.Module):
         self.ln = nn.LayerNorm(norm_shape)
 
     def forward(self, X: torch.Tensor, Y: torch.Tensor):
-        """Add & LN.
+        """ Add & LN.
         :param X: the skip connection of raw input
         :param Y: the processed input
         :return: LN(X + dropout(Y))
@@ -235,8 +236,8 @@ class AddNorm(nn.Module):
 
 
 class PositionWiseFFN(nn.Module):
-    """The position-wise feed-forward network
-       Two layers MLP.
+    """ The position-wise feed-forward network
+        Two layers MLP.
     """
 
     def __init__(self, ffn_num_input: int, ffn_num_hiddens, ffn_num_outputs):
@@ -250,12 +251,12 @@ class PositionWiseFFN(nn.Module):
 
 
 class TransformerEncoderBlock(nn.Module):
-    """The Transformer encoder block Module."""
+    """ The Transformer encoder block Module."""
 
     def __init__(self, query_size: int, key_size: int, value_size: int,
                  num_hiddens: int, num_heads: int, norm_shape: list,
                  ffn_num_hiddens: int, dropout: float, use_bias: bool = False):
-        """Init Transformer Encoder Block.
+        """ Init Transformer Encoder Block.
 
         :param query_size: the size of q
         :param key_size: the size of k
@@ -302,15 +303,16 @@ class TransformerEncoderBlock(nn.Module):
 
 
 class PositionalEncoding(nn.Module):
-    """Positional encoding.
-    Sin-Cos PE way, unlearned.
+    """ Positional encoding. Sin-Cos PE way.
+
     """
 
     def __init__(self, num_hiddens: int, dropout: float, max_len=1000):
-        """Init the PE module and PE array based on the function in paper.
+        """ Init the PE module and PE array based on the function in paper.
         :param num_hiddens: the feature dim.
         :param dropout: the dropout ratio
         :param max_len: the max len, must be longer than seq
+
         """
 
         super().__init__()
@@ -330,13 +332,14 @@ class PositionalEncoding(nn.Module):
         self.PE[:, :, 1::2] = torch.cos(X)  # the odd feature of each pos
 
     def forward(self, X):
-        """Add PE."""
+        """ Add PE. """
+
         X = X + self.PE[:, :X.shape[1], :].to(X.device)
         return self.dropout(X)
 
 
 class TransformerDecoderBlock(nn.Module):
-    """The i_th block of Decoder."""
+    """ The i_th block of Decoder. """
 
     def __init__(self, decoder_block_idx: int,
                  query_size: int, key_size: int, value_size: int,
@@ -396,12 +399,14 @@ class TransformerDecoderBlock(nn.Module):
         else:
             key_values = torch.cat((state[2][self.i], X), axis=1)
         state[2][self.i] = key_values
+
         if self.training:  # train 阶段构建掩码
             batch_size, num_steps, _ = X.shape
             dec_valid_lens = torch.arange(
                 1, num_steps + 1, device=X.device).repeat(batch_size, 1)
         else:  # predict 的时候就逐步向后走
             dec_valid_lens = None
+
         # ---- Step 1. Multi Heda Attention (self) (masked) ---- #
         multi_attentioned_X = self.multi_head_attention1(queries=X, keys=key_values, values=key_values,
                                                          valid_lens=dec_valid_lens)

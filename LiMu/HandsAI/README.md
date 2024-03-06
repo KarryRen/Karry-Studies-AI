@@ -6,11 +6,13 @@
 >
 > 1. **系统性地梳理框架**，填充自己的学习实践感悟，构建起清晰且扎实地**深度学习脉络**
 > 2. 搭建起自己的**深度学习知识库**，方便后续相关内容的收集与整理，本笔记将成为个人的**深度学习基础宝典**
-> 3. 书写**清晰完整的笔记内容**，为交流分享提供便利
+> 3. 书写**清晰完整的笔记内容**，为交流分享提供便利 
 >
-> 学习时沐神告诫我们要始终询问 What, How, Why。自己未来的规划也想在 Why 和 How 上多下文章，因此要始终勤于思考，善于发问，善于总结和延伸！共勉！
+> 学习时沐神告诫我们要不断地、努力地询问 What, How, Why。自己未来的规划也想在 Why 和 How 上多下文章，因此要始终勤于思考，善于发问，善于总结和延伸！共勉！
 
 ## 0～18. Fundation
+
+> Code : `00_to_18_Fundation/`
 
 ### 线性代数基础
 
@@ -77,13 +79,13 @@ print(x.grad)
 # [0, 1, 4, 9] = x^2
 ```
 
-### [线性回归](https://zh-v2.d2l.ai/chapter_linear-networks/linear-regression.html)
+### 线性回归
 
-线性回归是入门深度学习的一个经典例子，线性模型在本质上是一个**单层线性神经网络**，以此为出发点，就可以明白三个问题：1.什么是模型？2.什么是损失函数？3.怎么样优化模型？
+[**线性回归**](https://zh-v2.d2l.ai/chapter_linear-networks/linear-regression.html)是入门深度学习的一个经典例子，线性模型在本质上是一个**单层线性神经网络**，以此为出发点，就可以明白三个问题：1.什么是模型？2.什么是损失函数？3.怎么样优化模型？
 
 **推导显示解**
 
-> 线性模型是最简单的神经网络模型，也是从现在开始所学习的唯一具有显示解的模型，其具有极强的代表意义，但是太过简单。
+> 线性模型是最简单的神经网络模型，也是从现在开始所学习的唯一具有显示解的模型，其具有极强的代表意义，但是太过简单，很难拓展开。
 
 其实在计量经济学和统计学中，我们推导过单自变量的**二元线性回归**和多自变量的**多元线性回归**的解，这些问题都存在明确且严格的解析解，因为参数较少所以也比较容易推导。对于更加普遍的多元线性回归，我们也可以得到更加统一的解析解，严格推导过程如下：设 $\bold{X} \in \mathbb{R}^{n\times d}$ 表示整个数据集中的 $n$ 个含有 $f$ 个特征的样本，其中 $\bold{X}$ 的每一行代表一个样本，每一列是一种特征。对于特征集合 $\bold{X}$ 预测值 $\hat{\bold{y}}\in \mathbb{R}^n$ 可以通过矩阵-向量乘法表示为：
 $$
@@ -157,9 +159,15 @@ $$
   - [**How to Init the Parameter ?**](https://blog.csdn.net/PanYHHH/article/details/107338657)
 - What is the relationship between `model.eval()` and `torch.no_grad()`. [**Ref.**](https://blog.csdn.net/qq_41813454/article/details/135129279)
 
-### [SoftMax 回归](https://zh-v2.d2l.ai/chapter_linear-networks/softmax-regression.html)
+### SoftMax 回归
 
-aa
+[**SoftMax 回归**](https://zh-v2.d2l.ai/chapter_linear-networks/softmax-regression.html)
+
+
+
+## 51~62. 序列模型统览
+
+
 
 
 
@@ -172,6 +180,8 @@ aa
 > **[Ref 3. Paper Reading](https://www.bilibili.com/video/BV1pu411o7BE/?spm_id_from=333.999.0.0)**
 >
 > **[Ref 4. Book](https://zh-v2.d2l.ai/chapter_attention-mechanisms/transformer.html)**
+>
+> Code : `68_Transformer/`
 
 ### Paper Reading
 
@@ -323,7 +333,7 @@ An attention function can be described as **mapping a query and a set of key-val
 
 - Attention in Transformer
 
-  从框架图中就可以看出 Transformer 中用到的全部都是**自注意力机制**，如果不考虑多头的话，其每次注意力的本质就是顺次时间步的特征做 Q 和 t 个时间步下的 K 做 Attention 得到 t 个权重（自己对自己的 Attention 肯定是最高的），然后与对应时间步的 V 进行加权求和得到该 Q 权重下的输出（这一段很绕，但是很容易理解，抓住 Q 是产生权重的关键，有多少个 Q 就有多少组权重，Q 的数量和最终输出的数量是相同的就可以了）。代码实现可以用 for-loop 来做，但是为了并行就需要设计成矩阵乘法，上面的图中展示了可视化运行过程。
+  从框架图中就可以看出 Transformer 中用到的全部都是**自注意力机制**，如果不考虑多头的话，其每次注意力的本质就是顺次时间步的特征做 Q 和 t 个时间步下的 K 做 Attention 得到 t 个权重（自己对自己的 Attention 肯定是最高的），然后与对应时间步的 V 进行加权求和得到该 Q 权重下的输出（这一段很绕，但是很容易理解，抓住 Q 是产生权重的关键，有多少个 Q 就有多少组权重，Q 的数量和最终输出的数量是相同的就可以了）。代码实现当然可以用 for-loop 来做，但是为了并行就需要设计成矩阵乘法，上面的图中展示了可视化运行过程。
 
   总的来说 Transformer 中有**三种 Multi-Head Attention**，因为特征的**形状基本保持一致**，所以很容易进行搭建。
 
@@ -374,7 +384,3 @@ Since our model **contains no recurrence and no convolution**, in order for the 
 - 特征宽度 $d_{model}$
 
 其他的一些超参可以随着这几个参数的变化而变化。
-
-### Code
-
-一个模块一个模块地从零开始实现，放在了代码中。实现方法和论文基本没有差别。在实际用的时候直接套用 torch.nn 中写好的模块。

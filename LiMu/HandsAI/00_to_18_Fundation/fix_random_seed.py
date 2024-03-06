@@ -2,7 +2,7 @@
 # @Time    : 2024/1/17 20:43
 # @Author  : Karry Ren
 
-"""How the random seed changing the init.
+""" How the random seed changing the init.
     Only the sequence matters
 """
 

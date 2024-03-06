@@ -6,6 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="4a4f6262-f311-494c-a0f0-1617a9ac261b" name="Changes" comment="how the random seed matter ?">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/00_to_18_Fundation/linear_refression.py" beforeDir="false" afterPath="$PROJECT_DIR$/00_to_18_Fundation/linear_refression.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/00_to_18_Fundation/linear_regression_scrach.py" beforeDir="false" afterPath="$PROJECT_DIR$/00_to_18_Fundation/linear_regression_scrach.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/00_to_18_Fundation/random_seed.py" beforeDir="false" afterPath="$PROJECT_DIR$/00_to_18_Fundation/random_seed.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/68_Transformer/Code/modules.py" beforeDir="false" afterPath="$PROJECT_DIR$/68_Transformer/Code/modules.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/68_Transformer/Code/transformer.py" beforeDir="false" afterPath="$PROJECT_DIR$/68_Transformer/Code/transformer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -203,6 +209,15 @@
       <workItem from="1708415372525" duration="321000" />
       <workItem from="1708416476702" duration="547000" />
       <workItem from="1708418020484" duration="1029000" />
+      <workItem from="1708474976075" duration="54000" />
+      <workItem from="1708667828149" duration="576000" />
+      <workItem from="1708668423951" duration="594000" />
+      <workItem from="1708669032334" duration="1152000" />
+      <workItem from="1708740210501" duration="23000" />
+      <workItem from="1708995238514" duration="600000" />
+      <workItem from="1709019551521" duration="3000" />
+      <workItem from="1709019996197" duration="15000" />
+      <workItem from="1709690654820" duration="1193000" />
     </task>
     <task id="LOCAL-00001" summary="fundation">
       <option name="closed" value="true" />

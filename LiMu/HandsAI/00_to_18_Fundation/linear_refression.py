@@ -2,7 +2,7 @@
 # @Time    : 2024/1/14 18:06
 # @Author  : Karry Ren
 
-"""Realization of the linear_regression by some modules of torch."""
+""" Realization of the linear_regression by some modules of torch. """
 
 import torch
 import torch.utils.data as data
