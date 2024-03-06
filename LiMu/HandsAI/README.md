@@ -12,7 +12,7 @@
 
 ## 0～18. Fundation
 
-> Code : `00_to_18_Fundation/`
+> **<u>Code</u>** : `00_to_18_Fundation/`
 
 ### 线性代数基础
 
@@ -167,7 +167,66 @@ $$
 
 ## 51~62. 序列模型统览
 
+> **<u>Code</u>** : `51_to_62_SequenceModel`
 
+### 序列模型
+
+[**序列模型**](https://zh-v2.d2l.ai/chapter_recurrent-neural-networks/sequence.html)是对时序信息建模，序列数据是世界的本质，数据之间是相互关联的，不独立的。模型本质是对 $T$ 个不独立的随机变量 $(x_1, \cdots, x_T) \sim p(\mathrm{x})$ 进行建模，得到 $p(x_t|x_{t-1}, \cdots, x_1)$。如果对该条件概率进行建模，可以使用 $p(x_t|f(x_1,\cdots,x_{t-1}))$ 也即对历史的数据构建模型 $f$ 来进行特征提取与表示，进行两种**自回归**建模：
+
+- 方案 1. 马尔可夫假设：当前的数据只跟过去 $\tau$  个过去的数据点相关，因此
+  $$
+  p(x_t|x_{t-1}, \cdots, x_1) = p(x_t|x_{t-\tau}, \cdots, x_1)=p(x_t|f(x_\tau,\cdots,x_{t-1}))
+  $$
+  这样因为输入数据是定长的，那么就可以直接采用线性回归或者 MLP 直接建模就可以了
+
+  ```python
+  input - (time_step, input_size)
+  MLP:
+  	=> (time_stpe, 1)
+  	=> output: (1, 1)
+  ```
+
+- 方案 2. 潜变量模型：引入潜变量 $h_t$ 来表示历史所有的信息 $h_t = f(x_1,\cdots,x_{t-1},h_{t-1})$，那么：
+  $$
+  x_t = p(x_t|h_t)
+  $$
+  <img src="https://zh-v2.d2l.ai/_images/sequence-model.svg" alt="image-20240111220055310" style="zoom:120%;" />
+
+  这样将所有的信息都放入潜变量中进行表示，核心有两部分，首先是如何根据过去的潜变量和最新的输入来更新最新的潜变量，其次是如何根据最新的潜变量得到未来的输出。
+
+### 文本预处理
+
+文本预测等任务是时序模型中最具有代表性的任务，和平常所用的多维时序数据有异曲同工之处，本质是将文本中的词语转化成特征向量。核心是分为三步：
+
+```python
+# ---- Step 1. Load the Raw text data ---- #
+lines = read_text_data()  # lines 是一个列表，每一个元素为一句话 
+
+# ---- Step 2. Tokenize ---- #
+tokens = tokenize(lines, token_type) # tokens 是一个 2D 列表，将 lines 中的每个元素又进行拆分，也就是将每个句子进行拆分，可能分为 word 也可能分为 char
+
+# ---- Step 3. Get the corpus ---- #
+# 得到特征语料库，可以是统计了整个文本进行 one-hot 处理，也可以是直接用 pre-train 的模型 encoding 成为一个特征向量，总之这一步就是将 token 中的非数字内容转变成数字内容。
+corpus 就是一个连续的时序特征了，后续就可以对此进行建模了。
+```
+
+使用 Word 做 Token 的好处在于将词信息直接扔给模型，让模型自己学的东西比较简单，缺点在于词空间可能过分稀疏（因为 Word 太多了）。使用 Char 的优势在于 Char 空间会十分密集最多也就 26 个（可能还会加一些空格和标点字符等），缺点在于其很难表达整个句子的意思。
+
+### 语言模型
+
+进行条件概率（n 元语法）建模，计算词出现的条件概率。阶数越高，对应的依赖关系就越长。 这种性质推导出了许多可以应用于序列建模的近似公式：
+$$
+\begin{split}\begin{aligned}
+P(x_1, x_2, x_3, x_4) &=  P(x_1) P(x_2) P(x_3) P(x_4),\\
+P(x_1, x_2, x_3, x_4) &=  P(x_1) P(x_2  \mid  x_1) P(x_3  \mid  x_2) P(x_4  \mid  x_3),\\
+P(x_1, x_2, x_3, x_4) &=  P(x_1) P(x_2  \mid  x_1) P(x_3  \mid  x_1, x_2) P(x_4  \mid  x_2, x_3).
+\end{aligned}\end{split}
+$$
+文本数据的分布大部分遵循奇普夫定律，采用多元词可能使建模更加简单。
+
+<img src="https://zh-v2.d2l.ai/_images/output_language-models-and-dataset_789d14_66_0.svg" alt="image-20240111220055310" style="zoom:100%;" />
+
+ 
 
 
 
@@ -181,7 +240,7 @@ $$
 >
 > **[Ref 4. Book](https://zh-v2.d2l.ai/chapter_attention-mechanisms/transformer.html)**
 >
-> Code : `68_Transformer/`
+> **<u>Code</u>** : `68_Transformer/`
 
 ### Paper Reading
 

@@ -5,12 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4a4f6262-f311-494c-a0f0-1617a9ac261b" name="Changes" comment="how the random seed matter ?">
+      <change afterPath="$PROJECT_DIR$/51_to_62_SequenceModel/TextDataset/text_dataset.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/00_to_18_Fundation/linear_refression.py" beforeDir="false" afterPath="$PROJECT_DIR$/00_to_18_Fundation/linear_refression.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/00_to_18_Fundation/linear_regression_scrach.py" beforeDir="false" afterPath="$PROJECT_DIR$/00_to_18_Fundation/linear_regression_scrach.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/00_to_18_Fundation/random_seed.py" beforeDir="false" afterPath="$PROJECT_DIR$/00_to_18_Fundation/random_seed.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/68_Transformer/Code/modules.py" beforeDir="false" afterPath="$PROJECT_DIR$/68_Transformer/Code/modules.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/68_Transformer/Code/transformer.py" beforeDir="false" afterPath="$PROJECT_DIR$/68_Transformer/Code/transformer.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -55,8 +52,13 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager" selected="Python.random_seed">
-    <configuration name="a" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/51_to_62_SequenceModel/52_TextPreprocess" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.text_dataset">
+    <configuration name="download_data" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="HandsAI" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -64,12 +66,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/00_to_18_Fundation" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/51_to_62_SequenceModel/52_TextPreprocess" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/00_to_18_Fundation/a.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/51_to_62_SequenceModel/52_TextPreprocess/download_data.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -78,7 +80,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="linear_refression" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="markov_hypothesis" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="HandsAI" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -86,56 +88,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/00_to_18_Fundation" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/51_to_62_SequenceModel/51_Foundation" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/00_to_18_Fundation/linear_refression.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="linear_regression" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="HandsAI" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/00_to_18_Fundation" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/00_to_18_Fundation/linear_regression.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="linear_regression_scrach" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="HandsAI" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/00_to_18_Fundation" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/00_to_18_Fundation/linear_regression_scrach.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/51_to_62_SequenceModel/51_Foundation/markov_hypothesis.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -166,13 +124,57 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="text_dataset" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="HandsAI" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/51_to_62_SequenceModel/TextDataset" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/51_to_62_SequenceModel/TextDataset/text_dataset.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="text_preprocess" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="HandsAI" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/51_to_62_SequenceModel/52_TextPreprocess" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/51_to_62_SequenceModel/52_TextPreprocess/text_preprocess.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.text_dataset" />
+        <item itemvalue="Python.text_preprocess" />
+        <item itemvalue="Python.download_data" />
+        <item itemvalue="Python.markov_hypothesis" />
         <item itemvalue="Python.random_seed" />
-        <item itemvalue="Python.a" />
-        <item itemvalue="Python.linear_regression_scrach" />
-        <item itemvalue="Python.linear_refression" />
-        <item itemvalue="Python.linear_regression" />
       </list>
     </recent_temporary>
   </component>
@@ -217,7 +219,7 @@
       <workItem from="1708995238514" duration="600000" />
       <workItem from="1709019551521" duration="3000" />
       <workItem from="1709019996197" duration="15000" />
-      <workItem from="1709690654820" duration="1193000" />
+      <workItem from="1709690654820" duration="14600000" />
     </task>
     <task id="LOCAL-00001" summary="fundation">
       <option name="closed" value="true" />
@@ -255,11 +257,15 @@
     <option name="LAST_COMMIT_MESSAGE" value="how the random seed matter ?" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/HandsAI$markov_hypothesis.coverage" NAME="markov_hypothesis Coverage Results" MODIFIED="1709706711198" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/51_to_62_SequenceModel/51_Foundation" />
     <SUITE FILE_PATH="coverage/HandsAI$a.coverage" NAME="a Coverage Results" MODIFIED="1705398037925" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/00_to_18_Fundation" />
     <SUITE FILE_PATH="coverage/HandsAI$random_seed.coverage" NAME="random_seed Coverage Results" MODIFIED="1705496769068" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/00_to_18_Fundation" />
     <SUITE FILE_PATH="coverage/HandsAI$linear_refression.coverage" NAME="linear_refression Coverage Results" MODIFIED="1705229092185" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/00_to_18_Fundation" />
     <SUITE FILE_PATH="coverage/HandsAI$linear_regression_scrach.coverage" NAME="linear_regression_scrach Coverage Results" MODIFIED="1705229931798" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/00_to_18_Fundation" />
     <SUITE FILE_PATH="coverage/HandsAI$autograd.coverage" NAME="autograd Coverage Results" MODIFIED="1704985436795" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/00_to_18_Fundation" />
     <SUITE FILE_PATH="coverage/HandsAI$linear_regression.coverage" NAME="linear_regression Coverage Results" MODIFIED="1705226192556" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/00_to_18_Fundation" />
+    <SUITE FILE_PATH="coverage/HandsAI$text_dataset.coverage" NAME="text_dataset Coverage Results" MODIFIED="1709717574725" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/51_to_62_SequenceModel/TextDataset" />
+    <SUITE FILE_PATH="coverage/HandsAI$download_data.coverage" NAME="download_data Coverage Results" MODIFIED="1709709503421" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/51_to_62_SequenceModel/52_TextPreprocess" />
+    <SUITE FILE_PATH="coverage/HandsAI$text_preprocess.coverage" NAME="text_preprocess Coverage Results" MODIFIED="1709712771519" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/51_to_62_SequenceModel/52_TextPreprocess" />
   </component>
 </project>

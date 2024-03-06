@@ -11,7 +11,7 @@ from typing import List
 
 
 def synthetic_data(w: torch.Tensor, b, num_examples):
-    """Generate dataset y = Xw + b + noise.
+    """ Generate dataset y = Xw + b + noise.
     :param w: the weight, shape = (d)
     :param b: the bias, shape = 1
     :param num_examples, the num of examples
@@ -33,7 +33,7 @@ def synthetic_data(w: torch.Tensor, b, num_examples):
 
 
 def data_iter(batch_size: int, features: torch.Tensor, labels: torch.Tensor):
-    """Read small batch data, and construct the dataloader.
+    """ Read small batch data, and construct the dataloader.
     :param batch_size: the batch size
     :param features: the features
     :param labels: the labels
@@ -53,7 +53,7 @@ def data_iter(batch_size: int, features: torch.Tensor, labels: torch.Tensor):
 
 
 class LinearReg:
-    """The linear regression model."""
+    """ The linear regression model.m"""
 
     def __init__(self, feature_dim: int):
         """Init the Model.
@@ -65,7 +65,7 @@ class LinearReg:
         self.b = torch.zeros(1, requires_grad=True)
 
     def forward(self, x: torch.Tensor):
-        """Forward computing: output = xw + b.
+        """ Forward computing: output = xw + b.
         :param x: the input feature.
 
         """
@@ -74,7 +74,7 @@ class LinearReg:
 
 
 def squared_loss(y_hat: torch.Tensor, y: torch.Tensor):
-    """The loss function.
+    """ The loss function.
     :param y_hat: the predicted y, shape = (bs, 1)
     :param y: the label, shape = (bs, 1)
 
@@ -84,7 +84,7 @@ def squared_loss(y_hat: torch.Tensor, y: torch.Tensor):
 
 
 def batch_sgd(params: List[torch.Tensor], lr: float, batch_size: int):
-    """Batch SGD optimizing algorithm."""
+    """ Batch SGD optimizing algorithm."""
 
     with torch.no_grad():
         for param in params:
