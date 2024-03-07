@@ -52,11 +52,11 @@ def data_iter(batch_size: int, features: torch.Tensor, labels: torch.Tensor):
         yield features[batch_indices], labels[batch_indices]
 
 
-class LinearReg:
-    """ The linear regression model.m"""
+class LinearRegScratch:
+    """ The scratched linear regression model. """
 
     def __init__(self, feature_dim: int):
-        """Init the Model.
+        """ Init the Model.
         :param feature_dim: the dimension of feature
 
         """
@@ -115,7 +115,7 @@ if __name__ == '__main__':
     data_loader = data_iter(BATCH_SIZE, features, labels)
 
     # ---- Step 3. Construct the Model & Loss Function & Optimizer ---- #
-    model = LinearReg(feature_dim=len(true_w))
+    model = LinearRegScratch(feature_dim=len(true_w))
     loss = squared_loss
     optimizer = batch_sgd
 

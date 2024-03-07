@@ -55,3 +55,5 @@ for epoch in range(epochs):
     1. Just do the test in test dataset which means one step prediction.
     2. Do the multi-steps prediction. (The error is accumulating !)
 """
+model.eval()
+...
