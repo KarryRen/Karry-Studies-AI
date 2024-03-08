@@ -6,7 +6,7 @@
 
 import random
 import torch
-from TextPreprocess.text_preprocess import load_corpus_time_machine
+from .TextPreprocess.text_preprocess import load_corpus_time_machine
 
 
 def seq_data_iter_random(corpus: list, batch_size: int, num_steps: int):
@@ -84,7 +84,7 @@ def seq_data_iter_sequential(corpus: list, batch_size: int, num_steps: int):
 class SeqDataLoader:
     """ The dataloader for sequence data. """
 
-    def __init__(self, batch_size: int, num_steps: int, use_random_iter: bool, max_tokens: int = -1):
+    def __init__(self, batch_size: int, num_steps: int, use_random_iter: bool = False, max_tokens: int = -1):
         """ Init of Dataloader.
 
         :param batch_size: the batch size
@@ -102,7 +102,6 @@ class SeqDataLoader:
 
         # ---- Load the time machine corpus ---- #
         self.corpus, self.vocab = load_corpus_time_machine(max_tokens=max_tokens)
-        print(self.corpus)
 
         self.batch_size, self.num_steps = batch_size, num_steps
 

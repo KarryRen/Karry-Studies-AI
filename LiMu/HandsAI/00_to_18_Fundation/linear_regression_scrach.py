@@ -6,12 +6,12 @@
 
 import torch
 import random
-import matplotlib.pyplot as plt
 from typing import List
 
 
 def synthetic_data(w: torch.Tensor, b, num_examples):
     """ Generate dataset y = Xw + b + noise.
+
     :param w: the weight, shape = (d)
     :param b: the bias, shape = 1
     :param num_examples, the num of examples
@@ -34,6 +34,7 @@ def synthetic_data(w: torch.Tensor, b, num_examples):
 
 def data_iter(batch_size: int, features: torch.Tensor, labels: torch.Tensor):
     """ Read small batch data, and construct the dataloader.
+
     :param batch_size: the batch size
     :param features: the features
     :param labels: the labels
@@ -57,6 +58,7 @@ class LinearRegScratch:
 
     def __init__(self, feature_dim: int):
         """ Init the Model.
+
         :param feature_dim: the dimension of feature
 
         """
@@ -66,6 +68,7 @@ class LinearRegScratch:
 
     def forward(self, x: torch.Tensor):
         """ Forward computing: output = xw + b.
+
         :param x: the input feature.
 
         """
@@ -75,6 +78,7 @@ class LinearRegScratch:
 
 def squared_loss(y_hat: torch.Tensor, y: torch.Tensor):
     """ The loss function.
+
     :param y_hat: the predicted y, shape = (bs, 1)
     :param y: the label, shape = (bs, 1)
 

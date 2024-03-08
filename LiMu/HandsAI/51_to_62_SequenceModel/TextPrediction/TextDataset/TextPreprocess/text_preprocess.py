@@ -13,8 +13,8 @@ import collections
 
 
 def read_time_machine(txt_path: str = "/Users/karry/KarryRen/Codes/Karry-Studies-AI/LiMu"
-                                      "/HandsAI/51_to_62_SequenceModel/TextDataset/TextPreprocess"
-                                      "/timemachine.txt") -> list:
+                                      "/HandsAI/51_to_62_SequenceModel/TextPrediction"
+                                      "/TextDataset/TextPreprocess/timemachine.txt") -> list:
     """ Read the time machine text data.
 
     :param txt_path: the path of `.txt`data.
