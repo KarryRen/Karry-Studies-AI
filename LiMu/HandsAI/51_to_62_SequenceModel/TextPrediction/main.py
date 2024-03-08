@@ -92,22 +92,19 @@ for epoch in range(num_epoch):
 
 
 # --- Step 4. Predict the model ---- #
-def predict(prefix: str, pred_steps: int, net, vocab, device: torch.device):
-    """ Predict the sentence of prefix.
-    A greate way.
+def predict(prefix: str, pred_steps: int, model, vocab, device: torch.device):
+    """ Predict the sentence of prefix. A greate way. """
 
-    """
-
-    state = net.begin_state(batch_size=1, device=device)
+    state = model.begin_state(batch_size=1, device=device)
     outputs = [vocab[prefix[0]]]
     get_input = lambda: torch.tensor([outputs[-1]], device=device).reshape((1, 1))
 
     for y in prefix[1:]:  # pre-fix and get the hidden state
-        _, state = net(get_input(), state)
+        _, state = model(get_input(), state)
         outputs.append(vocab[y])
 
     for _ in range(pred_steps):  # for-loop to predict
-        y, state = net(get_input(), state)
+        y, state = model(get_input(), state)
         outputs.append(int(y.argmax(dim=1).reshape(1)))
 
-    return ''.join([vocab.idx_to_token[i] for i in outputs])
+    return "".join([vocab.idx_to_token[i] for i in outputs])
