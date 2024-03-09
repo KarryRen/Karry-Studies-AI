@@ -6,5 +6,5 @@
 
 import d2l.torch as d2l
 
-d2l.DATA_HUB['time_machine'] = (d2l.DATA_URL + "timemachine.txt", "090b5e7e70c295757f55df93cb0a180b9691891a")
+d2l.DATA_HUB["time_machine"] = (d2l.DATA_URL + "timemachine.txt", "090b5e7e70c295757f55df93cb0a180b9691891a")
 d2l.download("time_machine")

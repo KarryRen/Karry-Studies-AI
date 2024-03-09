@@ -8,7 +8,7 @@ from torch import nn
 import torch
 
 # ---- Define the layer ---- #
-lstm_layer = nn.LSTM(26, 128, num_layers=2, batch_first=False)
+lstm_layer = nn.LSTM(26, [128, 256], num_layers=2, batch_first=False)
 
 if __name__ == '__main__':
     # forward demo, two state (h, c)
