@@ -39,12 +39,15 @@ def gru(inputs: torch.Tensor, state: tuple, params: list):
 
     # ---- For loop the time_steps to get the output for each step ---- #
     for X in inputs:
+        # -- Step 1. Two Gates -- #
         # update gate
         Z = torch.sigmoid((X @ W_xz) + (H @ W_hz) + b_z)
         # reset gate
         R = torch.sigmoid((X @ W_xr) + (H @ W_hr) + b_r)
+        # -- Step 2. Compute the tilda hidden state -- #
         # tilda hidden state
         H_tilda = torch.tanh((X @ W_xh) + ((R * H) @ W_hh) + b_h)
+        # -- Step 3. New hidden state -- #
         # the new hidden state
         H = Z * H + (1 - Z) * H_tilda
         # the output

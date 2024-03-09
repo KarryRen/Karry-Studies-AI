@@ -5,7 +5,6 @@
 """ The RNN Model from scratch. """
 
 import torch
-import torch.nn.functional as F
 
 
 def rnn(inputs: torch.Tensor, state: tuple, params: list) -> tuple:

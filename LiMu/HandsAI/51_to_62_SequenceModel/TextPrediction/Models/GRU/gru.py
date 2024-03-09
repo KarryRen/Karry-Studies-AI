@@ -8,12 +8,12 @@ from torch import nn
 import torch
 
 # ---- Define the layer ---- #
-rnn_layer = nn.GRU(26, 128, num_layers=2, batch_first=False)
+gru_layer = nn.GRU(26, 128, num_layers=2, batch_first=False)
 
 if __name__ == '__main__':
     # forward demo
 
     state = torch.zeros((2, 32, 128))
     X = torch.rand(size=(35, 32, 26))
-    Y, state_new = rnn_layer(X, state)
+    Y, state_new = gru_layer(X, state)
     print(Y.shape, state_new.shape)
