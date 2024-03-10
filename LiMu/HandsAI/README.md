@@ -148,7 +148,9 @@ $$
 
 详情见代码 `/00_to_18_Fundation/linear_regression(_scrach).py`
 
-### 关于超参的常问细节：
+### 关于超参
+
+**超参的一些细节**
 
 - 几个超参：`lr`、`bs`、`the reduction of MSE Loss` 的设置和梯度更新函数是紧密相关的，如果我们将 `reduction` 设置为 `mean` 那么 `lr` 自然应该调大一些。 [**[Definition.]**](https://zhuanlan.zhihu.com/p/277487038)  [**[Detail.]**](https://zhuanlan.zhihu.com/p/83626029)
 - `Epoch` 设置多少一般是人为决定，可以用一些 `Early Stop` 的方式判断是否收敛
@@ -158,6 +160,12 @@ $$
   - [**Why CAN'T be all ZERO ?**](https://www.cnblogs.com/hejunlin1992/p/13022391.html)
   - [**How to Init the Parameter ?**](https://blog.csdn.net/PanYHHH/article/details/107338657)
 - What is the relationship between `model.eval()` and `torch.no_grad()`. [**Ref.**](https://blog.csdn.net/qq_41813454/article/details/135129279)
+
+**如何调整参数**
+
+- 选出一个 BaseLine ，然后调超参数得到 insights ，工业界尽量还是选择对超参不那么敏感的算法。
+- Grid Search 在小任务上比较管用
+- Random search 是一个很不错的搜索方法
 
 ### SoftMax 回归
 
@@ -169,6 +177,13 @@ $$
 $$
 \bold{g} \leftarrow \min(1, \frac{\theta}{\Vert \bold{g}\Vert})\bold{g}
 $$
+
+### Optimizer
+
+如果损失函数是凸的，那么局部最优解一定是全局最优解。所有含有激活函数（非线性函数）的模型都是非凸的。目前我们很少直接使用全样本的梯度下降算法，也不会使用只有一个样本的随机梯度下降，而是采用小批量随机梯度下降，用到尽可能多的计算资源，且在保证无偏估计的同时尽量减少方差。
+
+**动量法**是实际进行梯度下降时常采用的方法。
+
 
 
 ## 51~62. 序列模型统览
@@ -482,7 +497,107 @@ Seq2Seq 问题的困难在于两个长度不同的 Seq 之间做转换。**Encod
 
 **如何实现注意力机制 ？**
 
-考虑这么一个问题
+考虑一个最简单的回归问题给定的成对的“输入－输出”数据集 $\{(x_1, y_1), \ldots, (x_n, y_n)\}$，如何学习 $f$ 来预测任意新输入 $x$ 的输出 $f(x)$ ？再来回顾一下之前的思路，我们会直接对输入的数据本身进行拟合得到 $f(x)$。使用注意力机制后的思路是将原始数据看作非自主性提示，将每一个数据点都当作一次查询，和所有的原始数据进行**注意力汇聚**后得到输出值：
+$$
+f(x) = \sum_{i=1}^n \alpha(x, x_i) y_i,
+$$
+具体而言：将查询 $x$ 和键 $x_i$ 之间的关系建模为 注意力权重（attention weight）$\alpha(x, x_i)$，这个权重将被分配给每一个对应值 $y_i$。 对于任何查询，模型在所有键值对**注意力权重都是一个有效的概率分布**： 它们是**非负的，并且总和为 1**。
+
+Nadaraya-Watson **核回归**就是最初的简单注意力机制（1964 年提出）：
+$$
+f(x) = \sum_{i=1}^n \frac{K(x - x_i)}{\sum_{j=1}^n K(x - x_j)} y_i,
+$$
+其中 $K$ 就是为了实现距离计算所用的核（Kernel），比如一个高斯核：
+$$
+K(u) = \frac{1}{\sqrt{2\pi}} \exp(-\frac{u^2}{2}).
+$$
+基于此，我们就可以得到一个十分简单的**无参数的注意力机制**。总的来说，对于上述回归问题，我们可以直接构建如下 $f$ ：
+$$
+\begin{split}\begin{aligned} f(x) &=\sum_{i=1}^n \alpha(x, x_i) y_i\\ &= \sum_{i=1}^n \frac{\exp\left(-\frac{1}{2}(x - x_i)^2\right)}{\sum_{j=1}^n \exp\left(-\frac{1}{2}(x - x_j)^2\right)} y_i \\&= \sum_{i=1}^n \mathrm{softmax}\left(-\frac{1}{2}(x - x_i)^2\right) y_i. \end{aligned}\end{split}
+$$
+可以将参数十分自然地加入到注意力机制中，在计算距离的方式里加入可学习参数 $w$：
+$$
+\begin{split}\begin{aligned}f(x) &= \sum_{i=1}^n \alpha(x, x_i) y_i \\&= \sum_{i=1}^n \frac{\exp\left(-\frac{1}{2}((x - x_i)w)^2\right)}{\sum_{j=1}^n \exp\left(-\frac{1}{2}((x - x_j)w)^2\right)} y_i \\&= \sum_{i=1}^n \mathrm{softmax}\left(-\frac{1}{2}((x - x_i)w)^2\right) y_i.\end{aligned}\end{split}
+$$
+可以看到**注意力的核心就在于计算注意力分数的核函数**。
+
+**常用的注意力评分函数**
+
+我们可以再次对上述 $f(x)$ 进行抽象，输入的 $x$ 本质就是一个查询 $\mathbf{q} \in \mathbb{R}^q$，而训练集中的 $(x_i, y_i)$ 就是 $(\mathbf{k} \in \mathbb{R}^k-\mathbf{v} \in \mathbb{R}^v)$ 对，注意此时不再是像上述的简单回归例子中的一维数据，而是拓展到了高维，因此本质上建模过程为：
+$$
+f(\mathbf{q}, (\mathbf{k}_1, \mathbf{v}_1), \ldots, (\mathbf{k}_m, \mathbf{v}_m)) = \sum_{i=1}^m \alpha(\mathbf{q}, \mathbf{k}_i) \mathbf{v}_i \in \mathbb{R}^v,
+$$
+将注意力聚合函数展开：
+$$
+\alpha(\mathbf{q}, \mathbf{k}_i) = \mathrm{softmax}(a(\mathbf{q}, \mathbf{k}_i)) = \frac{\exp(a(\mathbf{q}, \mathbf{k}_i))}{\sum_{j=1}^m \exp(a(\mathbf{q}, \mathbf{k}_j))} \in \mathbb{R}.
+$$
+可以看到函数 $a$ 的核心是计算 $q$ 和已有 $k$ 的距离关系，我们将该函数称为**注意力评分函数**（本质就是一个**距离函数**！用来计算二者的相似度）对于高斯核来说：
+$$
+a(q, k_i) = -\frac{1}{2}(q - k_i)^2
+$$
+实际应用时有更多的**注意力评分函数**可以选择。在此我们已经可以给出注意力机制最为细化的计算流程图：
+
+<img src="https://zh.d2l.ai/_images/attention-output.svg" style="zoom:100%;" />
+
+常见的注意力机制有两种：
+
+- **加性注意力机制**：当查询 $\mathbf{q} \in \mathbb{R}^q$ 和键 $\mathbf{k} \in \mathbb{R}^k$ 是不同长度的矢量时，可以使用加性注意力作为评分函数。 给定查询  $\mathbf{q}$ 和键  $\mathbf{k}$， 加性注意力（additive attention）的评分函数为：
+  $$
+  a(\mathbf q, \mathbf k) = \mathbf w_v^\top \text{tanh}(\mathbf W_q\mathbf q + \mathbf W_k \mathbf k) \in \mathbb{R},
+  $$
+  其中可学习的参数有三个：$\mathbf W_q\in\mathbb R^{h\times q}$、$\mathbf W_k\in\mathbb R^{h\times k}$ 和 $\mathbf w_v\in\mathbb R^{h}$。其计算过程其实等价于一个两层 MLP
+
+  ```python
+  # ---- Step 1. 将 q 和 k 拼接在一起 ---- #
+  input = cat(q, k) # shape=(bs, q + k)
+  # ---- Step 2. 第一层 MLP 运算 ---- #
+  x = tanh(Linear(q + k, h)(input)) # shape=(bs, h)
+  # ---- Step 3. 第二层 MLP 运算 ---- #
+  output = Linear(h, 1)(x) # shape=(bs, 1)
+  ```
+
+  其向量化表示，基于 $n$ 个查询和 $m$ 个键－值对计算注意力，其中 $\mathbf Q\in\mathbb R^{n\times q}$、$\mathbf K\in\mathbb R^{m\times k}$、$\mathbf V\in\mathbb R^{m\times v}$，那么计算过程如 下：
+
+  ``` python
+  q = W_q(Q) # shape=(bs, n, h)
+  k = W_k(k) # shape=(bs, m, h)
+  features = q.unsqueeze(2) + k.unsqueeze(1) # shape=(bs, n, m, h) broadcast
+  features = tahn(features)
+  scores = self.w_v(features).squeeze(-1) # shape=(bs, n, m)
+  attention_weights = softmax(scores, dim=-1) # shape=(bs, n, m)
+  output = torch.bmm(attention_weights, v) # shape=(bs, n, v)
+  ```
+
+- **缩放点积注意力**：使用点积可以得到计算效率更高的评分函数， 但是点积操作要求**查询和键**具有相同的长度 $d$。缩放点积注意力（scaled dot-product attention）评分函数为：
+  $$
+  a(\mathbf q, \mathbf k) = \mathbf{q}^\top \mathbf{k}  /\sqrt{d}.
+  $$
+  其向量化表示，基于 $n$ 个查询和 $m$ 个键－值对计算注意力，其中 $\mathbf Q\in\mathbb R^{n\times d}$、$\mathbf K\in\mathbb R^{m\times d}$、$\mathbf V\in\mathbb R^{m\times v}$，由于是乘法计算，可以直接用矩阵乘法表示，公式如下：
+  $$
+  \mathrm{softmax}\left(\frac{\mathbf Q \mathbf K^\top }{\sqrt{d}}\right) \mathbf V \in \mathbb{R}^{n\times v}.
+  $$
+
+### Attentioned Seq2Seq Model
+
+之前简单的 Seq2Seq 将 Encoder 的所有信息都注入到了最后一层的隐状态中，对于 Decoder 的不同输入而言所 Cat 的 Context 是完全一样的，但是这显然不太好，比如将 “Hello World” 翻译成“你好世界”的时候，我们更希望让 “你好” 的信息来自于 “Hello” 的隐状态，让 “世界” 的信息来自于 “World” 的隐状态。
+
+具体而言，就是拿到 Encoder 的所有输出做 Attention：
+
+- Encoder 每一步的输出作为 key-value, `shape=(bs, enc_time_steps, hidden_size)`
+- Encoder 的最后一时间步最终层隐状态的作为第一个 query, `shape=(bs, hidden_size)` 后续的 query 是 Decoder 上一时间步的隐状态
+- Decoder 的输入与 Attention 的结果 Cat 的值输入至 Decoder 的 RNN 中
+
+可以看到 Decoder 处**无法并行！**因为只有得到上一步的 hidden_state 才能得到 Context。
+
+### Self-Attention
+
+本质来讲，下面这幅图就是最清晰的对自注意力的描述。
+
+<img src="https://zh.d2l.ai/_images/cnn-rnn-self-attention.svg" style="zoom:80%;" />
+
+自注意力机制没有时序信息，因此要将位置信息编码放入 Input 中，既要在 step 维度上加位置信息，也要加 dimension 上加位置信息。也就是说，同一个 step 不同的 dim 上不同，同一个 dim 上不同的 step 不同。
+
+这种位置编码关注了相对位置信息（三角函数变换），这可能是其能够被模型线性表示的原因
 
 
 

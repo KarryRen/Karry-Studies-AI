@@ -303,12 +303,11 @@ class TransformerEncoderBlock(nn.Module):
 
 
 class PositionalEncoding(nn.Module):
-    """ Positional encoding. Sin-Cos PE way.
-
-    """
+    """ Positional encoding. Sin-Cos PE way. """
 
     def __init__(self, num_hiddens: int, dropout: float, max_len=1000):
         """ Init the PE module and PE array based on the function in paper.
+
         :param num_hiddens: the feature dim.
         :param dropout: the dropout ratio
         :param max_len: the max len, must be longer than seq
@@ -356,6 +355,7 @@ class TransformerDecoderBlock(nn.Module):
         :param norm_shape: the norm shape
         :param ffn_num_hiddens: the hiddens of ffn input
         :param dropout: dropout ratio
+
         """
 
         super(TransformerDecoderBlock, self).__init__()
@@ -386,7 +386,7 @@ class TransformerDecoderBlock(nn.Module):
             - 0: enc_outputs (bs, seq, num_hiddens)
             - 1: enc_valid_lens (bs, )
             - 2: [None] * self.num_layers when training
-        :return:
+
         """
 
         enc_outputs, enc_valid_lens = state[0], state[1]
