@@ -8,9 +8,6 @@ __pycache__/
 
 .idea/
 
-# Experiments Result
-Experiments/
-
 # C extensions
 *.so
 *.out
