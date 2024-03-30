@@ -1,6 +1,13 @@
 # Karry-Studies-AI
 
-Documenting Karry's process of learning artificial intelligence for communication.
+Documenting Karry's process of learning **Artificial Intelligence (AI)** for communication.
+
+```python
+Karry-Studies-AI/
+├── LiMu # Learning from LiMu.
+    ├── HandsAI # The HandsAI classes.
+└── PythonCodeSpecification # The CodeSpecification for python.
+```
 
 ## 📖 [LiMu](https://space.bilibili.com/1567748478)
 
