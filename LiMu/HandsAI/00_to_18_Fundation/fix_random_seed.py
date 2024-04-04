@@ -3,7 +3,8 @@
 # @Author  : Karry Ren
 
 """ How the random seed changing the init.
-    Only the sequence matters
+Only the sequence matters.
+
 """
 
 import random
