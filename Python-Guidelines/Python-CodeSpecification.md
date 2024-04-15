@@ -10,7 +10,7 @@ For code specification checking, we can use tools such as [**pylint**](https://z
 Fortunately, many IDEs now have integrated PEP8-based code formatting tools within them:
 
 - Allow us to format code with a **shortcut-key** 
-  - For `PyCharm`, the [shortcut-key](https://blog.csdn.net/weixin_43250623/article/details/88829783) is **`Ctrl + Alt + L`  for Windows** or **`option + command + L` for Mac**
+  - For `PyCharm`, the [shortcut-key](https://blog.csdn.net/weixin_43250623/article/details/88829783) is **`Ctrl + Alt + L`  for Windows** or **`Option + Command + L` for Mac**
 - Provide **real-time** code formatting **detection**
   - For `PyCharm`, it **displays PEP8-compliant comments** (usually a variety of wavy line hints) for non-standardized code, which you can follow on your own, or you can just use the shortcut keys mentioned above.
 
@@ -39,4 +39,9 @@ Header comments will give the code a sense of unity while still providing very c
 ```
 
 - For PyCharm, you can follow [**THIS**](https://zhuanlan.zhihu.com/p/113896445) to add. `File → Settings →  Editor →  Code Style → File and Code Templates →  Python Script`
+
+**3. About Strings.**
+
+- Just use the `f""` to format all variables rather than `""%` or `"".format`
+- Please use the `""` rather than `''`
 

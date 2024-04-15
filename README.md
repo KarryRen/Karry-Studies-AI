@@ -6,7 +6,9 @@ Documenting Karry's process of learning **Artificial Intelligence (AI)** for com
 Karry-Studies-AI/
 ├── LiMu # Learning from LiMu.
     ├── HandsAI # The HandsAI classes.
-└── PythonCodeSpecification # The CodeSpecification for python.
+└── Python-Guidelines
+    ├── Python-CodeSpecification.md # The CodeSpecification for python.
+    ├── Submodule-Guidelines.md # The Guidelines for Submodule.
 ```
 
 ## 📖 [LiMu](https://space.bilibili.com/1567748478)
