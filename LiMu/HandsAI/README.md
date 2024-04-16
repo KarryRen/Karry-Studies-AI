@@ -687,7 +687,7 @@ $$
 
 具体而言，就是拿到 Encoder 的所有输出做 Attention：
 
-- Encoder 每一步的输出作为 key-value, `shape=(bs, enc_time_steps, hidden_size)`
+- Encoder 每一步的输出（隐状态）作为 key-value, `shape=(bs, enc_time_steps, hidden_size)`
 - Encoder 的最后一时间步最终层隐状态的作为第一个 query, `shape=(bs, hidden_size)` 后续的 query 是 Decoder 上一时间步的隐状态
 - Decoder 的输入与 Attention 的结果 Cat 的值输入至 Decoder 的 RNN 中
 
