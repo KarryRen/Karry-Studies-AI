@@ -15,4 +15,4 @@ Karry-Studies-AI/
 
 Learning the basic knowledge about Deep Learning and reading traditional paper.
 
-1. *<u>**[hands_on_deep_learning.](https://space.bilibili.com/1567748478/channel/seriesdetail?sid=358497)**</u>*  The fundation of DL.
+1. *<u>**[hands_on_deep_learning.](https://space.bilibili.com/1567748478/channel/seriesdetail?sid=358497)**</u>* The fundation of DL.
