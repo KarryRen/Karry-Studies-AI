@@ -8,7 +8,7 @@ Karry-Studies-AI/
     ├── HandsAI # The HandsAI classes.
 └── Python-Guidelines
     ├── Python-CodeSpecification.md # The CodeSpecification for python.
-    ├── Submodule-Guidelines.md # The Guidelines for Submodule.
+    ├── Submodule-Guidelines.md # The Guidelines for Submodule. 
 ```
 
 ## 📖 [LiMu](https://space.bilibili.com/1567748478)
