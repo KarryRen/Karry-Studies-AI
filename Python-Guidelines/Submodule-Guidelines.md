@@ -89,4 +89,24 @@ git push
 
 ## Some bugs we have suffered.
 
-这里是我们之前在使用 `Submodule` 时出现的一些 Bug：
+> 这里是我们之前在使用 `Submodule` 时出现的一些 Bug 和解决方案
+
+**1. 子模块在分支上更新并完成 Merge 时，在主项目中完成对子模块更新后，出现子模块 Page Not Found 的情况**
+
+- **出现的原因**：主项目中对子模块最新 commit id 的链接出错，主项目 @commit id 和子模块最新的 commit id 不一致。
+
+- **解决的方案**：在主项目中进行如下操作
+
+  ```shell
+  # ---- Step 1. Enter the submodule and reset the commit id ---- #
+  cd repo-sub-1
+  git log # use log to check the right commit id of submodule
+  git reset `right_commit_id`
+  
+  # ---- Step 2. Go back to the root directory and update the link of submodule ---- #
+  cd .. 
+  git add .
+  git commit -m "change repo-sub-1 version"
+  git push
+  ```
+
