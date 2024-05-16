@@ -98,7 +98,7 @@ def batch_sgd(params: List[torch.Tensor], lr: float, batch_size: int):
             param.grad.zero_()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     BATCH_SIZE = 10
     LR = 0.03
     NUM_EPOCH = 10
