@@ -7,7 +7,6 @@
 import torch
 from torch import nn
 
-
 class Encoder(nn.Module):
     """ The Encoder (Same with Seq2Seq Model). """
 
