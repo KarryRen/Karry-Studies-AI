@@ -77,11 +77,11 @@ class LSTM:
             F = torch.sigmoid((X @ self.W_xf) + self.b_xf + (H @ self.W_hf) + self.b_hf)  # shape=(bs, hidden_size)
             # - output gate
             O = torch.sigmoid((X @ self.W_xo) + self.b_xo + (H @ self.W_ho) + self.b_ho)  # shape=(bs, hidden_size)
-            # C tilda:
+            # C tilda
             C_tilda = torch.tanh((X @ self.W_xc) + self.b_xc + (H @ self.W_hc) + self.b_hc)  # shape=(bs, hidden_size)
-            # C:
+            # C
             C = F * C + I * C_tilda  # shape=(bs, hidden_size)
-            # Hidden state:
+            # Hidden state
             H = O * torch.tanh(C)  # shape=(bs, hidden_size)
             # Set back
             outputs[:, t, :] = H
