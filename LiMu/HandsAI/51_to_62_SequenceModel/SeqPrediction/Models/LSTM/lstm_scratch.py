@@ -21,7 +21,7 @@ def lstm(inputs: torch.Tensor, state: tuple, params: list) -> tuple:
         - W_fi, shape=(hidden_size, hidden_size)
         - b_f, shape=(hidden_size)
         - W_xo, shape=(input_size, hidden_size)
-        - W_oi, shape=(hidden_size, hidden_size)
+        - W_ho, shape=(hidden_size, hidden_size)
         - b_o, shape=(hidden_size)
 
         - W_hq, shape=(hidden_size, output_size)
