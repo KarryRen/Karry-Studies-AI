@@ -13,7 +13,7 @@ import collections
 
 
 def read_time_machine(txt_path: str = "/Users/karry/KarryRen/Codes/Karry-Studies-AI/LiMu"
-                                      "/HandsAI/51_to_62_SequenceModel/TextPrediction"
+                                      "/HandsAI/51_to_62_SequenceModel/SeqPrediction"
                                       "/TextDataset/TextPreprocess/timemachine.txt") -> list:
     """ Read the time machine text data.
 
@@ -30,7 +30,7 @@ def read_time_machine(txt_path: str = "/Users/karry/KarryRen/Codes/Karry-Studies
         lines = f.readlines()
 
     # ---- Step 2. Adjust the data ---- #
-    adj_lines = [re.sub('[^A-Za-z]+', " ", line).strip().lower() for line in lines]
+    adj_lines = [re.sub("[^A-Za-z]+", " ", line).strip().lower() for line in lines]
 
     return adj_lines
 
@@ -151,12 +151,16 @@ def load_corpus_time_machine(token_type: str = "char", max_tokens: int = -1) -> 
 
     # ---- Load the `txt` data ---- #
     lines = read_time_machine()
+
     # ---- Tokenize ---- #
     tokens = tokenize(lines, token_type)
+
     # ---- Get the vocab ---- #
     vocab = Vocab(tokens)
+
     # ---- Get the idx of each item in lines ---- #
     corpus = [vocab[token] for line in tokens for token in line]
+
     # ---- Slice the max_token and return ---- #
     if max_tokens > 0:
         corpus = corpus[:max_tokens]

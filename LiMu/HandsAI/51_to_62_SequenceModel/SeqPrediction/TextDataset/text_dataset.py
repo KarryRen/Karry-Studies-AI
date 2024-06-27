@@ -6,7 +6,7 @@
 
 import random
 import torch
-from .TextPreprocess.text_preprocess import load_corpus_time_machine
+from TextPreprocess.text_preprocess import load_corpus_time_machine
 
 
 def seq_data_iter_random(corpus: list, batch_size: int, num_steps: int):
@@ -30,6 +30,7 @@ def seq_data_iter_random(corpus: list, batch_size: int, num_steps: int):
     # ---- Compute the num of sequence and start idx ---- #
     num_subseqs = (len(corpus) - 1) // num_steps
     initial_indices = list(range(0, num_subseqs * num_steps, num_steps))
+
     # ---- Shuffle the start idx ---- #
     random.shuffle(initial_indices)
 
