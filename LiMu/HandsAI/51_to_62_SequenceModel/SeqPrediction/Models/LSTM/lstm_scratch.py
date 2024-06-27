@@ -5,54 +5,86 @@
 """ The LSTM Model from scratch. """
 
 import torch
+from typing import Tuple
+import math
 
 
-def lstm(inputs: torch.Tensor, state: tuple, params: list) -> tuple:
-    """ The forward function of rnn.
+class LSTM:
+    """ The LSTM Model from scratch. """
 
-    :param inputs: the input feature, shape=(time_steps, bs, vocab_size).
-    :param state: the hidden state of last timestep.
-        - a tuple, just have one item, default is torch.zeros(bs, hidden_size)
-    :param params: the list of params
-        - W_xi, shape=(input_size, hidden_size)
-        - W_hi, shape=(hidden_size, hidden_size)
-        - b_i, shape=(hidden_size)
-        - W_xf, shape=(input_size, hidden_size)
-        - W_fi, shape=(hidden_size, hidden_size)
-        - b_f, shape=(hidden_size)
-        - W_xo, shape=(input_size, hidden_size)
-        - W_ho, shape=(hidden_size, hidden_size)
-        - b_o, shape=(hidden_size)
+    def __init__(self, input_size: int, hidden_size: int):
+        """ Init of the scratch LSTM Model.
+        :param input_size: The input size of the LSTM Model.
+        :param hidden_size: The hidden size of the LSTM Model.
 
-        - W_hq, shape=(hidden_size, output_size)
-        - b_q, shape=(hidden_size)
+        NOTE:
+            - All the weights and biases are initialized from :math:`\mathcal{U}(-\sqrt{k}, \sqrt{k})`,
+                where :math:`k = \frac{1}{\text{hidden\_size}}`
 
-    return: the tuple:
-        - output: the output of each step, shape=(time_steps, bs, output_size)
-        - final_state: the final state, a tuple (just one item, shape=(bs, hidden_size))
+        """
 
-    """
+        stdv = 1.0 / math.sqrt(hidden_size)
+        self.hidden_size = hidden_size
 
-    # ---- Get the param and hidden_state ---- #
-    [W_xi, W_hi, b_i, W_xf, W_hf, b_f, W_xo, W_ho, b_o, W_xc, W_hc, b_c, W_hq, b_q] = params
-    (H, C) = state
-    outputs = []
+        # ---- Define the params ---- #
+        # - input gate
+        self.W_xi = torch.Tensor(input_size, hidden_size).uniform_(-stdv, stdv)
+        self.b_xi = torch.Tensor(1, hidden_size).uniform_(-stdv, stdv)
+        self.W_hi = torch.Tensor(hidden_size, hidden_size).uniform_(-stdv, stdv)
+        self.b_hi = torch.Tensor(1, hidden_size).uniform_(-stdv, stdv)
+        # - forget gate
+        self.W_xf = torch.Tensor(input_size, hidden_size).uniform_(-stdv, stdv)
+        self.b_xf = torch.Tensor(1, hidden_size).uniform_(-stdv, stdv)
+        self.W_hf = torch.Tensor(hidden_size, hidden_size).uniform_(-stdv, stdv)
+        self.b_hf = torch.Tensor(1, hidden_size).uniform_(-stdv, stdv)
+        # - output gate
+        self.W_xo = torch.Tensor(input_size, hidden_size).uniform_(-stdv, stdv)
+        self.b_xo = torch.Tensor(1, hidden_size).uniform_(-stdv, stdv)
+        self.W_ho = torch.Tensor(hidden_size, hidden_size).uniform_(-stdv, stdv)
+        self.b_ho = torch.Tensor(1, hidden_size).uniform_(-stdv, stdv)
+        # - c tilda
+        self.W_xc = torch.Tensor(input_size, hidden_size).uniform_(-stdv, stdv)
+        self.b_xc = torch.Tensor(1, hidden_size).uniform_(-stdv, stdv)
+        self.W_hc = torch.Tensor(hidden_size, hidden_size).uniform_(-stdv, stdv)
+        self.b_hc = torch.Tensor(1, hidden_size).uniform_(-stdv, stdv)
 
-    # ---- For loop the time_steps to get the output for each step ---- #
-    for X in inputs:
-        # -- Step 1. Three Gates -- #
-        # input gate
-        I = torch.sigmoid((X @ W_xi) + (H @ W_hi) + b_i)
-        # forget gate
-        F = torch.sigmoid((X @ W_xf) + (H @ W_hf) + b_f)
-        # output gate
-        O = torch.sigmoid((X @ W_xo) + (H @ W_ho) + b_o)
-        # -- Step 2. C tilda computation -- #
-        C_tilda = torch.tanh((X @ W_xc) + (H @ W_hc) + b_c)
-        # -- Step 3. C Computation -- #
-        C = F * C + I * C_tilda
-        # -- Step 4. New Hidden State -- #
-        H = O * torch.tanh(C)
-        Y = (H @ W_hq) + b_q
-        outputs.append(Y)
-    return torch.cat(outputs, dim=0), (H, C)
+    def __call__(self, input: torch.Tensor, hx: Tuple[torch.Tensor, torch.Tensor]) -> Tuple[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]]:
+        """ Forward of the scratch LSTM Model.
+
+        :param input: The input to the LSTM Model.
+        :param hx: The hidden state of the LSTM Model.
+
+        :return:
+            - outputs: shape=(bs, time_steps, hidden_size)
+            - H: shape=(bs, hidden_size)
+            - C: shape=(bs, hidden_size)
+
+        """
+
+        # ---- Get the hidden_state & shape ---- #
+        (H, C) = hx
+        bs, time_steps, input_size = input.shape  # get the shape
+        outputs = torch.zeros(bs, time_steps, self.hidden_size)  # the output tensor
+
+        # ---- For loop the time_steps to get the output for each step ---- #
+        for t in range(time_steps):
+            # Get the `X` of t
+            X = input[:, t, :]  # shape=(bs, input_size)
+            # Three gates operation:
+            # - input gate
+            I = torch.sigmoid((X @ self.W_xi) + self.b_xi + (H @ self.W_hi) + self.b_hi)  # shape=(bs, hidden_size)
+            # - forget gate
+            F = torch.sigmoid((X @ self.W_xf) + self.b_xf + (H @ self.W_hf) + self.b_hf)  # shape=(bs, hidden_size)
+            # - output gate
+            O = torch.sigmoid((X @ self.W_xo) + self.b_xo + (H @ self.W_ho) + self.b_ho)  # shape=(bs, hidden_size)
+            # C tilda:
+            C_tilda = torch.tanh((X @ self.W_xc) + self.b_xc + (H @ self.W_hc) + self.b_hc)  # shape=(bs, hidden_size)
+            # C:
+            C = F * C + I * C_tilda  # shape=(bs, hidden_size)
+            # Hidden state:
+            H = O * torch.tanh(C)  # shape=(bs, hidden_size)
+            # Set back
+            outputs[:, t, :] = H
+
+        # ---- Return the output & state ---- #
+        return outputs, (H, C)

@@ -5,15 +5,6 @@
 """ The lstm in pytorch. """
 
 from torch import nn
-import torch
 
 # ---- Define the layer ---- #
-lstm_layer = nn.LSTM(26, [128, 256], num_layers=2, batch_first=False)
-
-if __name__ == '__main__':
-    # forward demo, two state (h, c)
-
-    state = (torch.zeros((2, 32, 128)), torch.zeros((2, 32, 128)))
-    X = torch.rand(size=(35, 32, 26))
-    Y, state_new = lstm_layer(X, state)
-    print(Y.shape, state_new[0].shape, state_new[1].shape)
+lstm_layer = nn.LSTM(input_size=16, hidden_size=30, num_layers=1, batch_first=True)

@@ -455,7 +455,7 @@ GRU 的核心是**隐变量的计算机制更为复杂**，但**输入和输出�
 
 ### LSTM (Long Short-Term Memory)
 
-> LSTM 的出现的 Motivation 依然是为了解决上述三个时序编码的需求，尽管 LSTM 的计算单元比 GRU 要复杂，但是其出现的时间却比较早。
+> LSTM 的出现的 Motivation 依然是为了解决上述三个时序编码的需求，尽管 LSTM 的计算单元比 GRU 要复杂，但是其出现的时间却比较早。`Ref. Hochreiter & Schmidhuber, 1997 Hochreiter, S., & Schmidhuber, J. (1997). Long short-term memory. Neural Computation, 9(8), 1735–1780.`
 
 LSTM 较比 RNN 和 GRU **输入输出发生了改变**，其不仅维护隐状态，还维护了一个**记忆单元（cell）**，可以将记忆元理解为**隐状态的一种特殊类型**， 它们与隐状态具有相同的形状，其设计目的是用于记录附加的信息。LSTM 的本质仍然是门控，控制记忆元的更新和隐状态的更新，计算流程图如下：
 
