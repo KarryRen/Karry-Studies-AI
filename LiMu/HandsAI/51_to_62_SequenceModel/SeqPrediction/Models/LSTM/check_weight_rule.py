@@ -2,7 +2,7 @@
 # @Time    : 2024/6/27 17:00
 # @Author  : Karry Ren
 
-""" Eval the torch lstm model computing way. Check the weight sequence. """
+""" Eval the torch lstm model computing way. Check the weight sequence rule. """
 
 import torch
 from torch import nn

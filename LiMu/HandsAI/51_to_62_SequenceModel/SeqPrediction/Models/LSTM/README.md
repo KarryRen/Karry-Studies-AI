@@ -78,7 +78,7 @@ The `lstm_layer._parameters` shows that there are **four parameters**:
 
 The actual implementation of `torch` differs significantly from the theoretical mathematical formulation: All weights and bias are **concatenated** and **run in parallel**. **How exactly is the bottom calculated ?** Here we try to reproduce it by handwritten LSTM to verify the derivation.
 
-As you'll see if you run `check_weight_seq.py`, the weights and bias are spliced i**n the order `[I, F, C, O]` in the torch implementation of the LSTM.** That is:
+As you'll see if you run [`check_weight_rule.py`](./check_weight_rule.py), the weights and bias are concat i**n the order `[I, F, C, O]` in the torch implementation of the LSTM.** That is:
 
 
 
