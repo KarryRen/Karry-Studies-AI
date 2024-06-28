@@ -54,7 +54,7 @@ A multilayer LSTM is nothing more than a stack of single-layer LSTM, the input $
 - $\mathbf{W}_{\textrm{hi}}, \mathbf{W}_{\textrm{hf}}, \mathbf{W}_{\textrm{ho}}, \mathbf{W}_{\textrm{hc}} \in \mathbb{R}^{h \times h}$
 - $\mathbf{b}_\textrm{hi}, \mathbf{b}_\textrm{hf}, \mathbf{b}_\textrm{ho}, \mathbf{b}_\textrm{hc} \in \mathbb{R}^{1 \times h}$
 
-In total, an LSTM with l layers would have $12\times l$ parameters.
+In total, an LSTM with l layers would have $16\times l$ parameters.
 
 
 
