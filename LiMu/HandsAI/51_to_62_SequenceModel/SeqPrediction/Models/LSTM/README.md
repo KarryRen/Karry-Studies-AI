@@ -80,9 +80,29 @@ The actual implementation of `torch` differs significantly from the theoretical 
 
 As you'll see if you run [`check_weight_rule.py`](./check_weight_rule.py), the weights and bias are concat i**n the order `[I, F, C, O]` in the torch implementation of the LSTM.** That is:
 
-
-
-
-
-
+```python
+# get value
+weight_ih_l0, bias_ih_l0 = lstm_torch.weight_ih_l0, lstm_torch.bias_ih_l0  # shape=(4 * hidden_size, input_size) & (4 * hidden_size)
+weight_hh_l0, bias_hh_l0 = lstm_torch.weight_hh_l0, lstm_torch.bias_hh_l0  # shape=(4 * hidden_size, hidden_size) & (4 * hidden_size)
+# transpose
+weight_ih_l0, weight_hh_l0 = weight_ih_l0.T, weight_hh_l0.T
+# split the concat weight & bias
+weight_ih_l0 = weight_ih_l0.reshape(input_size, 4, hidden_size)
+bias_ih_l0 = bias_ih_l0.reshape(4, hidden_size)
+weight_hh_l0 = weight_hh_l0.reshape(hidden_size, 4, hidden_size)
+bias_hh_l0 = bias_hh_l0.reshape(4, hidden_size)
+# set value
+# - I ~ 1
+lstm_scratch.W_xi, lstm_scratch.W_hi = weight_ih_l0[:, 0, :], weight_hh_l0[:, 0, :]
+lstm_scratch.b_xi[0], lstm_scratch.b_hi[0] = bias_ih_l0[0], bias_hh_l0[0]
+# - F ~ 2
+lstm_scratch.W_xf, lstm_scratch.W_hf = weight_ih_l0[:, 1, :], weight_hh_l0[:, 1, :]
+lstm_scratch.b_xf[0], lstm_scratch.b_hf[0] = bias_ih_l0[1], bias_hh_l0[1]
+# - C ~ 3
+lstm_scratch.W_xc, lstm_scratch.W_hc = weight_ih_l0[:, 2, :], weight_hh_l0[:, 2, :]
+lstm_scratch.b_xc[0], lstm_scratch.b_hc[0] = bias_ih_l0[2], bias_hh_l0[2]
+# - O ~ 4
+lstm_scratch.W_xo, lstm_scratch.W_ho = weight_ih_l0[:, 3, :], weight_hh_l0[:, 3, :]
+lstm_scratch.b_xo[0], lstm_scratch.b_ho[0] = bias_ih_l0[3], bias_hh_l0[3]
+```
 
