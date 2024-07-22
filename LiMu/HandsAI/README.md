@@ -785,7 +785,7 @@ x = LayerNorm(x + MLP(x))
 > bn=BN(f)
 > 	- mean.shape=(1, 1, f)
 > 	- std.shape=(1, 1, f)
-> # ------ BN ------ #
+> # ------ LN ------ #
 > ln=LN(seq, f)
 > 	- mean.shape=(bs, 1, 1)
 > 	- std.shape=(bs, 1, 1)
