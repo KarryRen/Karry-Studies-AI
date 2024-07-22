@@ -6,8 +6,10 @@ Documenting Karry's process of learning **Artificial Intelligence (AI)** for com
 Karry-Studies-AI/
 ├── LiMu # Learning from LiMu.
     ├── HandsAI # The HandsAI classes.
-├── Tools # Some usefule tools.
+├── Tools # Some useful tools.
     ├── NAS # Neural Architecture Search materials.
+├── Networks # The learned Networks.
+    ├── finance_transformer # The FiT.
 └── Python-Guidelines
     ├── Python-CodeSpecification.md # The CodeSpecification for python.
     ├── Submodule-Guidelines.md # The Guidelines for Submodule. 
@@ -26,3 +28,12 @@ Learning the basic knowledge about Deep Learning and reading traditional paper.
 Some great tools about AI.
 
 1. NAS-Neural Architecture Search materials.
+
+
+
+### :fire: Networks
+
+> Some usefully networks and using samples.
+
+### 1. Finance Transformer (FiT)
+
