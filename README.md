@@ -4,6 +4,8 @@ Documenting Karry's process of learning **Artificial Intelligence (AI)** for com
 
 ```python
 Karry-Studies-AI/
+├── Images # The images.
+    ├── images.pptx # Images constructing PPT.
 ├── LiMu # Learning from LiMu.
     ├── HandsAI # The HandsAI classes.
 ├── Tools # Some useful tools.
