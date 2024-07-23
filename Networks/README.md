@@ -25,9 +25,13 @@ These two properties are at the heart of why Finance Transformer was proposed !
 
 ### What is the FiT ?
 
-The framework of FiT is shown below.
+The **framework** of FiT is shown below.
 
 <img src="./README.assets/FiT_Framework.png" alt="FiT_Framework" style="zoom:50%;" />
+
+FiT achieves the top 2 goals through a **two-part design**, respectively:
+- Similar to the ViT architecture, the `[fin]` token is introduced to **summarize information**. However, since there is **no positional encoding**, it can be realized that the **output is independent of the order of the inputs**.
+- Perform **Attention with Masks to ignore the parts** that do not contain information.
 
 ### How to use FiT ?
 

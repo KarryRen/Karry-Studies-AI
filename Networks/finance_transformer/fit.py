@@ -62,6 +62,7 @@ class MultiHeadAttention(nn.Module):
         super().__init__()
 
         # ---- Check and set the params --- #
+        self.attn_weight = None  # just for visual
         assert dim % heads == 0, f"The dim must be divided by heads. Now `dim = {dim}`, `heads = {heads}` !"
         self.heads = heads
 
@@ -100,6 +101,7 @@ class MultiHeadAttention(nn.Module):
         # ---- Compute the `attn_weight` and do dropout ---- #
         attn_weight = nn.functional.softmax(attn_score, dim=-1)  # shape=(bs, heads, n, n)
         attn_weight = self.attn_dropout(attn_weight)  # shape=(bs, heads, n, n)
+        self.attn_weight = attn_weight
 
         # ---- Compute the `out` ---- #
         out = torch.matmul(attn_weight, v)  # shape=(bs, heads, n, dim//heads)
