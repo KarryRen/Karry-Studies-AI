@@ -2,30 +2,24 @@
 # @author : KarryRen
 # @time   : 2024/7/22 16:45
 
-""" The Finance Transformer (FiT), a new `Plug-and-Play` module for `Finance Panel Feature` Extraction.
-
-Detail information can be found in `https://github.higgsasset.com/ResearchLab/FinBert/issues/20`.
-
-
-"""
+""" FiT, A new Plug-and-Play module for Finance Cross-Section Feature Extraction. """
 
 import torch
 from torch import nn
 
 
-class FinanceTransformer(nn.Module):
-    """ The Finance Transformer (FiT), a new `Plug-and-Play` module for `Finance Panel Feature` Extraction. """
+# classes
 
-    def __init__(self, device: torch.device):
+class FiT(nn.Module):
+    """ FiT, A new Plug-and-Play module for Finance Cross-Section Feature Extraction. """
+
+    def __init__(self, ):
         """ Init function of the FiT.
 
-        :param device: the computing device
 
         """
 
-        super(FinanceTransformer, self).__init__()
-
-        self.device = device
+        super(FiT, self).__init__()
 
     def forward(self, panel_features: torch.Tensor) -> torch.Tensor:
         """ Forward function of FiT.
