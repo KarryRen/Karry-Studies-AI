@@ -7,7 +7,6 @@
 import torch
 from torch import nn
 from einops import rearrange, repeat
-from einops.layers.torch import Rearrange
 
 
 # classes
@@ -105,8 +104,7 @@ class MultiHeadAttention(nn.Module):
         mask = mask.unsqueeze(-2)  # expand dim from (bs, heads, n) to (bs, heads, 1, n)
         n = mask.shape[-1]  # get the n
         mask = repeat(mask, "bs h 1 n-> bs h s n", s=n)  # repeat shape from (bs, heads, n, 1) to (bs, heads, n, n)
-        mask = (mask == 1)  # change to bool
-        attn_score[~mask] = -1e6  # mask the value
+        attn_score[~(mask == 1)] = -1e6  # mask the value
 
         # ---- Compute the `attn_weight` and do dropout ---- #
         attn_weight = nn.functional.softmax(attn_score, dim=-1)  # shape=(bs, heads, n, n)
