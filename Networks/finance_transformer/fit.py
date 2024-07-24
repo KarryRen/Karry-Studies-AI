@@ -78,10 +78,11 @@ class MultiHeadAttention(nn.Module):
         # ---- Output weight ---- #
         self.w_o = nn.Linear(dim, dim, bias=False)
 
-    def forward(self, x: torch.Tensor) -> torch.Tensor:
+    def forward(self, x: torch.Tensor, mask: torch.Tensor) -> torch.Tensor:
         """ Forward function of MultiHeadAttention.
 
         :param x: the input feature, will do the self multi head attention, shape=(bs, n, dim)
+        :param mask: the mask of input feature, shape=(bs, n)
 
         :return out: feature after attention computing, shape=x.shape
 
@@ -98,10 +99,18 @@ class MultiHeadAttention(nn.Module):
         # ---- Compute the `attn_score = (qk^T) / (sqrt(d_k <scale>))` ---- #
         attn_score = torch.matmul(q, k.transpose(-1, -2)) / self.scale  # shape=(bs, heads, n, n)
 
+        # ---- Mask the attention score ---- #
+        mask = mask.unsqueeze(1)  # expand dim from (bs, n) to (bs, 1, n)
+        mask = repeat(mask, "bs 1 n -> bs h n", h=self.heads)  # repeat shape from (bs, 1, n) to (bs, heads, n)
+        mask = mask.unsqueeze(-2)  # expand dim from (bs, heads, n) to (bs, heads, 1, n)
+        n = mask.shape[-1]  # get the n
+        mask = repeat(mask, "bs h 1 n-> bs h s n", s=n)  # repeat shape from (bs, heads, n, 1) to (bs, heads, n, n)
+        mask = (mask == 1)  # change to bool
+        attn_score[~mask] = -1e6  # mask the value
+
         # ---- Compute the `attn_weight` and do dropout ---- #
         attn_weight = nn.functional.softmax(attn_score, dim=-1)  # shape=(bs, heads, n, n)
         attn_weight = self.attn_dropout(attn_weight)  # shape=(bs, heads, n, n)
-        self.attn_weight = attn_weight
 
         # ---- Compute the `out` ---- #
         out = torch.matmul(attn_weight, v)  # shape=(bs, heads, n, dim//heads)
@@ -136,10 +145,11 @@ class Transformer(nn.Module):
                 nn.LayerNorm(dim)
             ]))
 
-    def forward(self, x: torch.Tensor) -> torch.Tensor:
+    def forward(self, x: torch.Tensor, mask: torch.Tensor) -> torch.Tensor:
         """ Forward function of Transformer.
 
         :param x: input feature, shape=(bs, n, dim)
+        :param mask: the mask of input feature, shape=(bs, n)
 
         :return: out: the encoded feature, shape=(bs, n, dim)
 
@@ -147,7 +157,7 @@ class Transformer(nn.Module):
 
         # ---- Computing layer by layer ---- #
         for attn, norm_attn, ff, norm_ff in self.layers:
-            x = norm_attn(attn(x) + x)  # Add&Norm shape=(bs, n, dim)
+            x = norm_attn(attn(x, mask) + x)  # Add&Norm shape=(bs, n, dim)
             x = norm_ff(ff(x) + x)  # Add&Norm shape=(bs, n, dim)
 
         # ---- Get the output ---- #
@@ -198,11 +208,13 @@ class FiT(nn.Module):
         # ---- The mlp head ---- #
         self.mlp_head = nn.Linear(dim, 1)
 
-    def forward(self, feature: torch.Tensor) -> torch.Tensor:
+    def forward(self, feature: torch.Tensor, mask: torch.Tensor) -> torch.Tensor:
         """ Forward function of FiT.
 
         :param feature: the input feature of FiT, shape=(bs, n, input_size), `n` means
             there are `n` samples of feature
+        :param mask: the mask of input feature, meaning which sample is valid or not,
+            shape=(bs, n). value is `0 or 1` and 0 means not valid, 1 means valid.
 
         :return out: the output, shape=(bs, 1)
 
@@ -214,11 +226,12 @@ class FiT(nn.Module):
 
         # ---- Step 2. Concat the `fin_token` ---- #
         fin_tokens = repeat(self.fin_token, "1 1 d -> bs 1 d", bs=bs)  # repeat (1, 1, dim) to (bs, 1, dim)
-        x = torch.cat((fin_tokens, x), dim=1)  # concat the token, shape = (bs, n+1, dim)
+        x = torch.cat((fin_tokens, x), dim=1)  # concat the token, shape=(bs, n+1, dim)
+        mask = torch.cat((torch.ones(bs, 1), mask), dim=1).to(dtype=torch.int32)  # the mask of first token must be 1, shape=(bs, n+1, n+1)
         x = self.lp_dropout(x)  # do the drop out
 
         # ---- Step 4. Do the TE ---- #
-        x = self.transformer_encoder(x)  # shape=(bs, n+1, dim)
+        x = self.transformer_encoder(x, mask)  # shape=(bs, n+1, dim)
 
         # ---- Step 5. Do the summary ---- #
         x = x.mean(dim=1) if self.pool == "mean" else x[:, 0]  # shape=(bs, dim)

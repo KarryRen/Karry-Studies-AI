@@ -27,11 +27,36 @@ These two properties are at the heart of why Finance Transformer was proposed !
 
 The **framework** of FiT is shown below.
 
-<img src="./README.assets/FiT_Framework.png" alt="FiT_Framework" style="zoom:50%;" />
+<img src="./README.assets/FiT_Framework.png" alt="FiT_Framework.png" style="zoom:50%;" />
 
 FiT achieves the top 2 goals through a **two-part design**, respectively:
 - Similar to the ViT architecture, the `[fin]` token is introduced to **summarize information**. However, since there is **no positional encoding**, it can be realized that the **output is independent of the order of the inputs**.
-- Perform **Attention with Masks to ignore the parts** that do not contain information.
+- Perform **Attention with Mask** to ignore the parts that do not contain information.
+
+<img src="./README.assets/detail_of_FiT.png" alt="detail_of_FiT.png" style="zoom:50%;" />
+
+A **demo** using FiT:
+
+<img src="./README.assets/FiT_Demo.png" alt="FiT_Demo.png" style="zoom:50%;" />
 
 ### How to use FiT ?
+
+```python
+# random the input
+features = torch.randn(64, 5, 768, dtype=torch.float32)
+masks = torch.randint(low=0, high=2, size=(64, 5), dtype=torch.long)
+
+# init the model
+fit = FiT(
+    input_size=768,
+    dim=64,
+    depth=1,
+    heads=2,
+    ff_hidden_dim=32
+)
+
+# forward
+output = fit(features, masks)
+print(output)
+```
 
