@@ -102,8 +102,7 @@ class MultiHeadAttention(nn.Module):
         mask = mask.unsqueeze(1)  # expand dim from (bs, n) to (bs, 1, n)
         mask = repeat(mask, "bs 1 n -> bs h n", h=self.heads)  # repeat shape from (bs, 1, n) to (bs, heads, n)
         mask = mask.unsqueeze(-2)  # expand dim from (bs, heads, n) to (bs, heads, 1, n)
-        n = mask.shape[-1]  # get the n
-        mask = repeat(mask, "bs h 1 n-> bs h s n", s=n)  # repeat shape from (bs, heads, n, 1) to (bs, heads, n, n)
+        mask = repeat(mask, "bs h 1 n-> bs h s n", s=mask.shape[-1])  # repeat shape from (bs, heads, 1, n) to (bs, heads, n, n)
         attn_score[~(mask == 1)] = -1e6  # mask the value
 
         # ---- Compute the `attn_weight` and do dropout ---- #
