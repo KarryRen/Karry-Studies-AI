@@ -224,7 +224,7 @@ class FiT(nn.Module):
         # ---- Step 2. Concat the `fin_token` ---- #
         fin_tokens = repeat(self.fin_token, "1 1 d -> bs 1 d", bs=bs)  # repeat (1, 1, dim) to (bs, 1, dim)
         x = torch.cat((fin_tokens, x), dim=1)  # concat the token, shape=(bs, n+1, dim)
-        mask = torch.cat((torch.ones(bs, 1), mask), dim=1).to(dtype=torch.int32)  # the mask of first token must be 1, shape=(bs, n+1, n+1)
+        mask = torch.cat((torch.ones(bs, 1), mask), dim=1).to(dtype=torch.int32)  # the mask of first token must be 1, shape=(bs, n+1)
         x = self.lp_dropout(x)  # do the drop out
 
         # ---- Step 4. Do the TE ---- #
