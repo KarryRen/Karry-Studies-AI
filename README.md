@@ -1,6 +1,6 @@
 # Karry-Studies-AI
 
-Documenting Karry's process of learning **Artificial Intelligence (AI)** for communication.
+Documenting Karry's process of learning **Artificial Intelligence (AI)** for communication. 
 
 ```python
 Karry-Studies-AI/
