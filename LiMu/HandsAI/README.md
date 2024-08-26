@@ -271,6 +271,8 @@ $$
 
 ### Optimizer
 
+> 比较好的[**总结帖**](https://blog.csdn.net/yinyu19950811/article/details/90476956)。
+
 如果损失函数是凸的，那么局部最优解一定是全局最优解。所有含有激活函数（非线性函数）的模型都是非凸的。目前我们很少直接使用全样本的梯度下降算法，也不会使用只有一个样本的随机梯度下降，而是采用小批量随机梯度下降，用到尽可能多的计算资源，且在保证无偏估计的同时尽量减少方差。
 
 **动量法**是实际进行梯度下降时常采用的方法。
@@ -785,7 +787,7 @@ x = LayerNorm(x + MLP(x))
 > bn=BN(f)
 > 	- mean.shape=(1, 1, f)
 > 	- std.shape=(1, 1, f)
-> # ------ BN ------ #
+> # ------ LN ------ #
 > ln=LN(seq, f)
 > 	- mean.shape=(bs, 1, 1)
 > 	- std.shape=(bs, 1, 1)
@@ -883,9 +885,11 @@ An attention function can be described as **mapping a query and a set of key-val
 
 ```python
 x = (bs, seq, 512)
-fc = nn.Sequential(nn.Linear(512, 2048),
-                   nn.Relu(),
-                   nn.Linera(2048,512))
+fc = nn.Sequential(
+    nn.Linear(512, 2048),
+    nn.Relu(),
+    nn.Linera(2048,512)
+)
 ```
 
 为什么 MLP 不需要再对时间步进行特征提取？就像上面说的那样，我们认为 Attention 的主要作用是提取时序信息，MLP 在此更重要的是对特征维度信息进行提取。
@@ -896,11 +900,11 @@ Embedding 本质是线性转换，目的是将稀疏的词信息（可能是 one
 
 **Positional Encoding**
 
-还记得 Transformer 的初心是提取时序信息，尽管现在能够扫描的时序视野理论上已经可以拓展到无限长，也就意味着任意时点的关系都可以被提取到。但是时序信息中的先后关系也是十分重要的特征，然而之前没有一个地方提取了**先后时序关系**。说白了 Attention 的过程完全没有 Care 任何先后的概念，就算把输入的句子顺序彻底打乱，输入变得完全不一样，但是输出的结果却不会有任何改变。
+还记得 Transformer 的初心是提取时序信息，尽管现在能够扫描的时序视野理论上已经可以拓展到无限长，也就意味着任意时点的关系都可以被提取到。但是时序信息中的先后关系也是十分重要的特征（一个完全相同的词，出现在不一样的位置上，意思可能截然相反），然而之前没有一个地方提取了**先后时序关系**。这种时序特征提取性质是 RNN 和 CNN 架构的网络所先天具有的，因为其在计算的时候有顺序的概念，通过顺序计算其能够分辨出现在一个句子中不同位置的词。但是 Attention 的并行计算过程**完全没有 Care 任何先后的概念**，就算把输入的句子顺序彻底打乱，输入变得完全不一样，**对应输入的输出结果不会有任何改变** ！
 
 Since our model **contains no recurrence and no convolution**, in order for the model to make use of the order of the sequence, we **must inject some information about the relative or absolute position of the tokens** in the sequence.
 
-为了表征输入的先后时序信息，引入了 PE，具体而言是对每一个时间步都构建一个长度为 512 的特征向量（任何两个时间步上该向量都不会重复！就像身份信息一样**唯一标识了此时间步的位置**），本文作者使用的 SIne-Cosine 函数。每一个点的具体值由其所在向量的 positon 以及其在该向量中的 index （影响周期）共同决定。
+为了表征输入的先后时序信息，引入了 PE，具体而言是对每一个时间步都构建一个长度为 512 的特征向量（任何两个时间步上该向量都不会重复！就像身份信息一样**唯一标识了此时间步的位置**），本文作者使用的 Sine-Cosine 函数。每一个点的具体值由其所在向量的 position 以及其在该向量中的 index （影响周期）共同决定。
 
 <img src="./README.assets/image-20231130175729012.png" alt="image-20231130175729012 " style="zoom:40%;" />
 

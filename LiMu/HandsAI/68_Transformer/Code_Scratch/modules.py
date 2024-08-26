@@ -37,8 +37,7 @@ def masked_softmax(X: torch.Tensor, valid_lens: Optional[torch.Tensor] = None):
 
         max_len = X.size(1)
         # get the valid range of each seq (bs*seq, seq), very clear !!
-        valid_range = torch.arange(max_len, dtype=torch.float32,
-                                   device=X.device)[None, :] < valid_len[:, None]
+        valid_range = torch.arange(max_len, dtype=torch.float32, device=X.device)[None, :] < valid_len[:, None]
         # set the no valid range of X to value
         X[~valid_range] = value
         return X

@@ -30,7 +30,7 @@ Header comments will give the code a sense of unity while still providing very c
 
 ```python
 # -*- coding: utf-8 -*-
-# @author : RenKai (intern in HIGGS ASSET)
+# @author : KarryRen
 # @time   : ${DATE} ${TIME}
 #
 # pylint: disable=no-member
