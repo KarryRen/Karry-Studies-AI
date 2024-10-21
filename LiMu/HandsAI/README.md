@@ -151,14 +151,14 @@ $$
 
 ### 多层感知机（MLP）
 
-因为线性模型的表达能力有着明显的[**不足**](https://zh-v2.d2l.ai/chapter_multilayer-perceptrons/mlp.html#id3)，因为就算是 n 层线性层，也等价于 1 层。所以希望在多层的神经网络中引入非线性运算，防止线性层塌陷，增强模型的表达能力：
+因为线性模型的表达能力有着明显的[**不足**](https://zh-v2.d2l.ai/chapter_multilayer-perceptrons/mlp.html#id3)，因为就算是 n 层线性层，也等价于 1 层。所以希望在**多层**的神经网络中引入非线性运算，防止线性层塌陷，增强模型的表达能力：
 $$
 \begin{split}\begin{aligned}
     \mathbf{H} & = \sigma(\mathbf{X} \mathbf{W}^{(1)} + \mathbf{b}^{(1)}), \\
     \mathbf{O} & = \mathbf{H}\mathbf{W}^{(2)} + \mathbf{b}^{(2)}.\\
 \end{aligned}\end{split}
 $$
-一层感知机理论上能够在有限步骤内求出最优解，但是无法拟合 XOR 函数，也就是说无法用一层感知机对如下数据进行拟合：
+一层感知机理论，$\mathbf{O} = \mathbf{H}\mathbf{W} + \mathbf{b}$ 上能够在有限步骤内求出最优解，但是无法拟合 XOR 函数，也就是说无法用一层感知机对如下数据进行拟合：
 $$
 (x_1, x_2)\to y:(0,0)\to-1, (1,0)\to 1,(0,1)\to1,(1,1)\to0
 $$
