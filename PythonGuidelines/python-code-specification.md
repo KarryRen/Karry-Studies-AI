@@ -1,4 +1,4 @@
-# Python-CodeSpecification
+# Python Code Specification
 
 Python officially has a good style guide for Python code in [**PEP 8 - Style Guide for Python Code**](https://peps.python.org/pep-0008/) in the Python Enhancement Proposals (PEP). The Chinese translation of that document can be found [**HERE**](https://www.cnblogs.com/bymo/p/9567140.html) ! Please be sure to read this document carefully, as its contents are the CORE specification for python code development.
 
