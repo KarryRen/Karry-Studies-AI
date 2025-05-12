@@ -8,15 +8,12 @@ Karry-Studies-AI/
     ├── images.pptx # Images constructing PPT.
 ├── LiMu # Learning from LiMu.
     ├── HandsAI # The HandsAI classes.
-├── Tools # Some useful tools.
-    ├── NAS # Neural Architecture Search materials.
-    ├── Interpretability
 ├── Networks # The learned Networks.
     ├── finance_transformer # The FiT.
-├── QuantML # The ML for Quant.
+    ├── tests/ # Test demos.
 └── PythonGuidelines
-    ├── python-code-specification.md # The CodeSpecification for python.
-    ├── Submodule-Guidelines.md # The Guidelines for Submodule. 
+    ├── python_code_specification.md # The Code Specification for python.
+    └── submodule_guidelines.md # The Guidelines for Submodule. 
 ```
 
 ## 📖 [LiMu](https://space.bilibili.com/1567748478)
@@ -27,15 +24,6 @@ Learning the basic knowledge about Deep Learning and reading traditional papers.
 
 
 
-## :hammer_and_wrench: Tools
-
-Some great tools for AI.
-
-1. **NAS**: Neural Architecture Search materials.
-2. **Interpretability**.
-
-
-
 ### :fire: Networks
 
 Some useful networks and using samples.
@@ -43,10 +31,6 @@ Some useful networks and using samples.
 1. Finance Transformer (FiT, self-design).
 
 
-
-### 📖 Quant_ML
-
-1. Exploring-the-Factor-Zoo
 
 
 
