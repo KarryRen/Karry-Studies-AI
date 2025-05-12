@@ -1,12 +1,14 @@
 # Networks
 
+
+
 ## Finance Transformer (FiT)
 
 > A new **Plug-and-Play module** for **Finance Cross-Section Feature** Extraction.
 
 ### What is Cross-Section Feature ?
 
-Cross-Section feature refers to the observed values of the **same feature of a group of samples** reflecting an aggregate **at the same time cross-section**, and is one of the common types of sample data.
+Cross-Section feature refers to the observed values of the **same feature of a group of samples** reflecting an aggregate **at the same time cross-section and is one of the common types of sample data.
 
 Cross-section data are generally characterized by the following:
 - It is characterized at one point in time, with **no temporal information**.

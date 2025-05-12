@@ -10,9 +10,11 @@ Karry-Studies-AI/
     ├── HandsAI # The HandsAI classes.
 ├── Tools # Some useful tools.
     ├── NAS # Neural Architecture Search materials.
-    ├── Interpretabilit
+    ├── Interpretability
 ├── Networks # The learned Networks.
     ├── finance_transformer # The FiT.
+├── Quant_ML # The ML for Quant.
+    ├── 
 └── Python-Guidelines
     ├── Python-CodeSpecification.md # The CodeSpecification for python.
     ├── Submodule-Guidelines.md # The Guidelines for Submodule. 
@@ -20,24 +22,32 @@ Karry-Studies-AI/
 
 ## 📖 [LiMu](https://space.bilibili.com/1567748478)
 
-Learning the basic knowledge about Deep Learning and reading traditional paper.
+Learning the basic knowledge about Deep Learning and reading traditional papers.
 
-1. HandsAI: *<u>**[hands_on_deep_learning.](https://space.bilibili.com/1567748478/channel/seriesdetail?sid=358497)**</u>* The fundation of DL.
+1. HandsAI: *<u>**[hands_on_deep_learning.](https://space.bilibili.com/1567748478/channel/seriesdetail?sid=358497)**</u>* The foundation of DL.
 
 
 
 ## :hammer_and_wrench: Tools
 
-Some great tools about AI.
+Some great tools for AI.
 
-1. **NAS**-Neural Architecture Search materials.
-2. **Interpretabilit**.
+1. **NAS**: Neural Architecture Search materials.
+2. **Interpretability**.
 
 
 
 ### :fire: Networks
 
-Some usefully networks and using samples.
+Some useful networks and using samples.
 
-1. Finance Transformer (FiT)
+1. Finance Transformer (FiT, self-design).
+
+
+
+### 📖 Quant_ML
+
+1. Exploring-the-Factor-Zoo
+
+
 
