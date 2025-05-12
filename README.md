@@ -13,10 +13,9 @@ Karry-Studies-AI/
     ├── Interpretability
 ├── Networks # The learned Networks.
     ├── finance_transformer # The FiT.
-├── Quant_ML # The ML for Quant.
-    ├── 
-└── Python-Guidelines
-    ├── Python-CodeSpecification.md # The CodeSpecification for python.
+├── QuantML # The ML for Quant.
+└── PythonGuidelines
+    ├── python-code-specification.md # The CodeSpecification for python.
     ├── Submodule-Guidelines.md # The Guidelines for Submodule. 
 ```
 
