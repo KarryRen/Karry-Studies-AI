@@ -1,5 +1,11 @@
 # Networks
 
+## Fundation
+
+基本的 AI 任务：回归、分类、聚类
+
+- [**GAN**](https://juejin.cn/post/7120443914854613029) [**Code**](https://github.com/wsj-create/GAN/blob/master/test_gan.py)
+
 
 
 ## Finance Transformer (FiT)
@@ -8,7 +14,7 @@
 
 ### What is Cross-Section Feature ?
 
-Cross-Section feature refers to the observed values of the **same feature of a group of samples** reflecting an aggregate **at the same time cross-section and is one of the common types of sample data.
+Cross-Section feature refers to the observed values of the **same feature of a group of samples** reflecting an aggregate at the same time cross-section and is one of the common types of sample data.
 
 Cross-section data are generally characterized by the following:
 - It is characterized at one point in time, with **no temporal information**.
