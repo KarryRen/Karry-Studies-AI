@@ -9,3 +9,4 @@
 """
 
 from .le_net import LeNet
+from .alex_net import AlexNet
