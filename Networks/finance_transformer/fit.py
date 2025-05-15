@@ -9,8 +9,6 @@ from torch import nn
 from einops import rearrange, repeat
 
 
-# classes
-
 class FeedForward(nn.Module):
     """ The FeedForward Module. Just is `2 layers MLP`. """
 

@@ -1,6 +1,14 @@
 # Networks
 
-## Fundation
+## Fundamental
+
+### CNNs
+
+- **LeNet**: [**Paper**](https://ieeexplore.ieee.org/document/726791) | [**Code**]( cnns/le_net.py ) | [**Doc**](https://d2l.ai/chapter_convolutional-neural-networks/lenet.html)
+- AlexNet (2012): Paper | Code | Doc
+- VGG (2014): Paper | Code | Doc
+
+
 
 基本的 AI 任务：回归、分类、聚类
 
