@@ -2,12 +2,11 @@
 # @Time    : 2025/5/15 17:06
 # @Author  : Karry Ren
 
-import torch
 from torch import nn
 from torch.nn import functional as F
 
 
-class Residual(nn.Module):  # @save
+class Residual(nn.Module):
     """The Residual block of ResNet models."""
 
     def __init__(self, num_channels, use_1x1conv=False, strides=1):
