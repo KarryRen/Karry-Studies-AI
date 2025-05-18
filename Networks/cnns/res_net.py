@@ -7,7 +7,7 @@ from torch.nn import functional as F
 
 
 class Residual(nn.Module):
-    """The Residual block of ResNet models."""
+    """ The Residual block of ResNet models. """
 
     def __init__(self, num_channels, use_1x1conv=False, strides=1):
         super().__init__()
