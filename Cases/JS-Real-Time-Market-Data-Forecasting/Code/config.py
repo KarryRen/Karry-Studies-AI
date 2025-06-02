@@ -35,3 +35,6 @@ SELECTED_COLUMNS = [
     "feature_69", "feature_70", "feature_71", "feature_72", "feature_75", "feature_76", "feature_77", "feature_78",
     "responder_6",
 ]
+
+NUM_OF_VALID_DATES = 20
+TIME_STEPS = 3
