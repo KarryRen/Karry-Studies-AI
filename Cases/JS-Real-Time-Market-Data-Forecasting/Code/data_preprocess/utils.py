@@ -89,11 +89,11 @@ def date_symbol_id_visual(df: pd.DataFrame) -> None:
     print("*****************************************************************")
 
 
-def describe_modeling_column(df: pd.DataFrame, fill_nan: bool = False) -> None:
+def describe_modeling_column(df: pd.DataFrame, fill_nan_way: str = None) -> None:
     """ Describe the data column to modeling (79 features with 1 label).
 
     :param df: Dataframe to describe.
-    :param fill_nan: Whether to fill nan values.
+    :param fill_nan_way: The way to fill nan.
     """
 
     print("\n**************** MODELING COLUMNS DES **************")
@@ -102,5 +102,5 @@ def describe_modeling_column(df: pd.DataFrame, fill_nan: bool = False) -> None:
     desc = desc[["max", "min", "50%", "Has_NaN", "Nan Num", "NaN %"]]
     desc.columns = ["Max", "Min", "Median", "Has_NaN", "Nan Num", "NaN %"]
     print(desc)
-    desc.to_csv(f"modeling_columns_fill_nan_{fill_nan}.csv")
+    desc.to_csv(f"modeling_columns_fill_nan_{fill_nan_way}.csv")
     print("****************************************************")
