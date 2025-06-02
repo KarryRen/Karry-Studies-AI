@@ -75,6 +75,9 @@ if __name__ == "__main__":
             train_w[train_sample_step] = symbol_w_data[i]
             train_sample_step += 1
         print(f"Train Processing symbol id: {symbol_id}, len={len(symbol_data_df)}, train_sample_step={train_sample_step}")
+    assert not np.isnan(train_x).any(), "Train x has NaN values."
+    assert not np.isnan(train_y).any(), "Train y has NaN values."
+    assert not np.isnan(train_w).any(), "Train w has NaN values."
     np.savez("../../Data/dataset/train", x=train_x, y=train_y, w=train_w)
     # - for valid
     symbol_ids_valid = sorted(data_df_valid["symbol_id"].unique())
@@ -93,4 +96,7 @@ if __name__ == "__main__":
             valid_w[valid_sample_step] = symbol_w_data[i]
             valid_sample_step += 1
         print(f"Valid Processing symbol id: {symbol_id}, len={len(symbol_data_df)}, valid_sample_step={valid_sample_step}")
+    assert not np.isnan(valid_x).any(), "Valid x has NaN values."
+    assert not np.isnan(valid_y).any(), "Valid y has NaN values."
+    assert not np.isnan(valid_w).any(), "Valid w has NaN values."
     np.savez("../../Data/dataset/valid", x=valid_x, y=valid_y, w=valid_w)
