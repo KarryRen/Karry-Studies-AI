@@ -2,7 +2,7 @@
 # @Time    : 2025/6/1 21:53
 # @Author  : Karry Ren
 
-""""""
+""" Some configs for operation. """
 
 DATA_COLUMNS = [
     "date_id", "time_id", "symbol_id",

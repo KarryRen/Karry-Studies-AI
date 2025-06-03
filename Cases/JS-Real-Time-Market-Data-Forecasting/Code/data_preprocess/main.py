@@ -52,7 +52,7 @@ if __name__ == "__main__":
     # describe_modeling_column(data_df[config.SELECTED_COLUMNS[4:]], "z_score")
 
     # ---- Set Noise Label ---- #
-    data_df["is_noise"] = (data_df[config.SELECTED_COLUMNS[4:-1]] > 6).any(axis=1).astype(int)
+    data_df["is_noise"] = (data_df[config.SELECTED_COLUMNS[4:-1]].abs() > 4.5).any(axis=1).astype(int)
 
     # ---- Build up final dataset ---- #
     # split train & valid

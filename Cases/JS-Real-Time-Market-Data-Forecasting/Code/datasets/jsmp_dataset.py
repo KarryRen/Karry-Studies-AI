@@ -37,6 +37,7 @@ class JSMPDataset(data.Dataset):
         # ---- Read the data and get x, y, w ---- #
         self.data = np.load(f"{root_path}/dataset/{data_type}.npz")
         self.feature, self.label, self.weight, self.is_noise = self.data["x"], self.data["y"], self.data["w"], self.data["n"]
+        print(self.is_noise.sum() / len(self.is_noise))
 
         # ---- Check the length ---- #
         self.feature_len = self.feature.shape[0]
