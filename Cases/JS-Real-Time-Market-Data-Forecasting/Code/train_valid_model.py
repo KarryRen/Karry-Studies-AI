@@ -28,7 +28,7 @@ def train_valid_model() -> None:
 
     # ---- Get the train and valid device ---- #
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    logging.info(f"***************** In device {device}   *****************")
+    logging.info(f"***************** IN DEVICE `{device}` *****************")
 
     # ---- Make the dataset and dataloader ---- #
     # make the dataset and dataloader of training
