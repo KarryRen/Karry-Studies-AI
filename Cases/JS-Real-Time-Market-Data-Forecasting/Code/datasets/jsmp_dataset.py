@@ -37,7 +37,6 @@ class JSMPDataset(data.Dataset):
         # ---- Read the data and get x, y, w ---- #
         self.data = np.load(f"{root_path}/dataset/{data_type}.npz")
         self.feature, self.label, self.weight, self.is_noise = self.data["x"], self.data["y"], self.data["w"], self.data["n"]
-        print(self.is_noise.sum() / len(self.is_noise))
 
         # ---- Check the length ---- #
         self.feature_len = self.feature.shape[0]
@@ -50,7 +49,7 @@ class JSMPDataset(data.Dataset):
         self.feature = self.feature.reshape(self.feature_len, 3, 8, 8).astype("float32")
         self.label = self.label.astype("float32")
         self.weight = self.weight.astype("float32")
-        self.is_noise = (self.is_noise.sum(axis=1, keepdims=True) != 0).astype("int")
+        self.is_noise = (self.is_noise.sum(axis=1) != 0).astype("long")
 
     def __len__(self):
         """ Get the length of dataset. """
@@ -86,3 +85,4 @@ if __name__ == "__main__":  # a demo using JSMPDataset
         print(data_set[i]["feature"].max())
         print(data_set[i]["is_noise"])
         print(data_set[i]["feature"].shape, data_set[0]["label"].shape, data_set[0]["weight"].shape, data_set[0]["is_noise"].shape)
+        print(type(data_set[i]["feature"][0, 0, 0]), type(data_set[i]["label"][0]), type(data_set[i]["weight"][0]), type(data_set[i]["is_noise"]))
