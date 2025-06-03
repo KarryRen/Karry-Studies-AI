@@ -8,8 +8,11 @@
 > JS-Real-Time-Market-Data-Forecasting/
 > ├── Data/ # Data directory, too big to upload.
 > ├── Code/ # Code directory
->     ├── data_preprocess/ # code for data preprocessing
+>     ├── data_preprocess/ # Code for data preprocessing
 >         ├── utils.py # Utils functions for data preprocessing.
+>         └── main.py # Pipline of datapreprocessing.
+>     ├── datasets/ # The dataset.
+>     
 > └── partition_id=9
 > ```
 
@@ -64,9 +67,11 @@ train.parquet/
 
 紧接着需要对每个特征的空值进行检测，如表 1. 所呈现的对每一个建模特征和指标的描述性统计显示，大部分都存在空值，可以直接按照 `symbol_id` 分组前填充。填充前后各特征的空值情况如图 3. 所示。缺省值过多的直接删除，数据偏度太大也直接剔除。剩余的按照 Symbol 分组填中位数。
 
-**Step 3. 数据归一化**
+**Step 3. 数据归一化，与噪声识别构造**
 
 进行全局 z-score 归一化。请注意：此处全局 z-score 只是对现实情形的模拟，现实中可以根据过往数据信息获得对全局均值方差的估计，但此处因为数据有限，所以只能用全局数据进行估计，这会导致未来信息泄漏，但是体现了核心思想。在此不做更多讨论。
+
+根据标准差偏移量构造噪声识别
 
 **Step 4. 结构化数据构建**
 
