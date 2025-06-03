@@ -155,7 +155,7 @@ def train_valid_model() -> None:
 
         # - save model&model_config and metrics
         torch.save(model, f"{config.MODEL_SAVE_PATH}/model_pytorch_epoch_{epoch}")
-        pd.DataFrame(epoch_metric).to_csv(config.MODEL_SAVE_PATH + "model_metric.csv")
+        pd.DataFrame(epoch_metric).to_csv(f"{config.MODEL_SAVE_PATH}/model_metric.csv")
 
         # write metric log
         dt = datetime.now() - t_start
@@ -169,7 +169,7 @@ def train_valid_model() -> None:
     plt.plot(epoch_metric["train_loss"], label="train loss", color="g")
     plt.plot(epoch_metric["valid_loss"], label="valid loss", color="b")
     plt.legend()
-    plt.subplot(3, 2, 3)
+    plt.subplot(3, 1, 2)
     plt.plot(epoch_metric["train_R2"], label="train R2", color="g")
     plt.plot(epoch_metric["valid_R2"], label="valid R2", color="b")
     plt.legend()
