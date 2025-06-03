@@ -63,7 +63,7 @@ class JSMPDataset(data.Dataset):
             - `feature`: the feature, shape=(time_steps, 8, 8)
             - `label`: the responder label, shape=(1, )
             - `weight`: the weight, shape=(1, )
-            - `is_noise`: the is_noise label, shape=(1, )
+            - `is_noise`: the is_noise label, shape=()
 
         """
 

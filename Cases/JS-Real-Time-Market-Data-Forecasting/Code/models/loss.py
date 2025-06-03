@@ -84,32 +84,24 @@ class CE_Loss:
         assert reduction in ["sum", "mean"], f"Reduction in CE_Loss ERROR !! `{reduction}` is not allowed !!"
         self.reduction = reduction  # the reduction way
 
-    def __call__(self, y_true: torch.Tensor, y_pred: torch.Tensor, weight: torch.Tensor):
+    def __call__(self, y_true: torch.Tensor, y_pred: torch.Tensor):
         """ Call function of the CE Loss.
 
         :param y_true: the true label of time series prediction, shape=(bs)
         :param y_pred: the prediction, shape=(bs, cls)
-        :param weight: the weight indicates item meaningful or meaningless, shape=(bs, 1)
 
         return:
             - batch_loss: a Tensor number, shape=([])
 
         """
 
-        # ---- Step 0. Test the weight shape & make the default weight ---- #
-        assert weight.shape[0] == y_true.shape[0], "Weight should have the same length with y_true&y_pred !"
-
         # ---- Step 1. Compute the loss ---- #
         if self.reduction == "mean":
             # compute ce loss (`mean`)
-            ce_sample_loss = F.cross_entropy(input=y_pred, target=y_true, reduction="none")  # (bs, 1)
-            ce_loss = torch.sum(weight * ce_sample_loss) / torch.sum(weight)  # weighted and mean
-            batch_loss = ce_loss
+            batch_loss = F.cross_entropy(input=y_pred, target=y_true, reduction="mean")
         elif self.reduction == "sum":
             # compute ce loss (`sum`)
-            ce_sample_loss = F.cross_entropy(input=y_pred, target=y_true, reduction="none")
-            ce_loss = torch.sum(weight * ce_sample_loss)  # weighted and sum
-            batch_loss = ce_loss
+            batch_loss = F.cross_entropy(input=y_pred, target=y_true, reduction="sum")
         else:
             raise TypeError(self.reduction)
 
@@ -141,8 +133,8 @@ if __name__ == "__main__":
     # ---- Test CE_Loss ---- #
     y_pred_ce[:, 1] = -20
     loss_ce_sum = CE_Loss(reduction="sum")
-    l = loss_ce_sum(y_true=y_true_ce, y_pred=y_pred_ce, weight=weight)
+    l = loss_ce_sum(y_true=y_true_ce, y_pred=y_pred_ce)
     print(l)
     loss_ce_mean = CE_Loss(reduction="mean")
-    l = loss_ce_mean(y_true=y_true_ce, y_pred=y_pred_ce, weight=weight)
+    l = loss_ce_mean(y_true=y_true_ce, y_pred=y_pred_ce)
     print(l)

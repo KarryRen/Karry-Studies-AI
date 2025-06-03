@@ -36,5 +36,13 @@ SELECTED_COLUMNS = [
     "responder_6",
 ]
 
+RANDOM_SEED = 42
+SAVE_PATH = "./save/"
+MODEL_SAVE_PATH = f"{SAVE_PATH}/models"
+LOG_FILE = f"{SAVE_PATH}/log.log"
 NUM_OF_VALID_DATES = 20
 TIME_STEPS = 3
+JSMP_DATASET_PATH = "../Data/"
+BATCH_SIZE = 2048
+LR = 1e-4
+EPOCHS = 10
