@@ -115,7 +115,8 @@ def train_valid_model() -> None:
             y_true=train_isnoise_labels_one_epoch.cpu().numpy(), y_pred=train_isnoise_one_epoch.cpu().numpy()
         )
         epoch_metric["train_F1"][epoch] = f1_score(
-            y_true=train_isnoise_labels_one_epoch.cpu().numpy(), y_pred=train_isnoise_one_epoch.cpu().numpy()
+            y_true=train_isnoise_labels_one_epoch.cpu().numpy(), y_pred=train_isnoise_one_epoch.cpu().numpy(),
+            average="weighted"
         )
 
         # - VALID model
@@ -150,7 +151,8 @@ def train_valid_model() -> None:
                 y_true=valid_isnoise_labels_one_epoch.cpu().numpy(), y_pred=valid_isnoise_one_epoch.cpu().numpy()
             )
             epoch_metric["valid_F1"][epoch] = f1_score(
-                y_true=valid_isnoise_labels_one_epoch.cpu().numpy(), y_pred=valid_isnoise_one_epoch.cpu().numpy()
+                y_true=valid_isnoise_labels_one_epoch.cpu().numpy(), y_pred=valid_isnoise_one_epoch.cpu().numpy(),
+                average="weighted"
             )
 
         # - save model&model_config and metrics
