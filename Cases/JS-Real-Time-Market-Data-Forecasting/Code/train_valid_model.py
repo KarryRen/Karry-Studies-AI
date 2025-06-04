@@ -106,7 +106,6 @@ def train_valid_model() -> None:
             train_isnoise_one_epoch[last_step:now_step] = isnoise.argmax(axis=1).detach()
             train_isnoise_labels_one_epoch[last_step:now_step] = isnoise_labels.detach()
             last_step = now_step
-            break
         # -- note the loss and metrics for one epoch of TRAINING
         epoch_metric["train_loss"][epoch] = np.mean(train_loss_one_epoch)
         epoch_metric["train_R2"][epoch] = r2_score(
@@ -143,7 +142,6 @@ def train_valid_model() -> None:
                 valid_isnoise_one_epoch[last_step:now_step] = isnoise.argmax(axis=1).detach()
                 valid_isnoise_labels_one_epoch[last_step:now_step] = isnoise_labels.detach()
                 last_step = now_step
-                break
             # -- note the loss and metrics for one epoch of VALIDATION
             epoch_metric["valid_loss"][epoch] = np.mean(valid_loss_one_epoch)
             epoch_metric["valid_R2"][epoch] = r2_score(
