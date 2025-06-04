@@ -16,7 +16,6 @@ def describe_data(df: pd.DataFrame) -> None:
     """ Describe the data information.
 
     :param df: Raw data dataframe.
-
     """
 
     # ---- Describe info ---- #
@@ -29,7 +28,6 @@ def describe_data(df: pd.DataFrame) -> None:
 
 def reduce_mem_usage(df: pd.DataFrame) -> pd.DataFrame:
     """ Reduce the memory usage of the dataframe.
-
 
     :param df: Dataframe to reduce.
     :return: Reduced dataframe.

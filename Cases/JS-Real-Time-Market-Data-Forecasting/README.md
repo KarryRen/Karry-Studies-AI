@@ -1,28 +1,42 @@
 # 基于 CNN 的高频交易噪声过滤与多空信号识别
 
-任凯（2024 金融科技，2401212437）
+任凯（2024 FinTech，2401212437）
 
-> 项目结构如下
->
-> ```python
-> JS-Real-Time-Market-Data-Forecasting/
-> ├── Data/ # Data directory, too big to upload.
-> ├── Code/ # Code directory
->     ├── data_preprocess/ # Code for data preprocessing
->         ├── utils.py # Utils functions for data preprocessing.
->         └── main.py # Pipline of datapreprocessing.
->     ├── datasets/ # The dataset.
->         └── jsmp_dataset.py # Dataset module.
-> └── partition_id=9
-> ```
+```python
+JS-Real-Time-Market-Data-Forecasting/
+├── Data/ # Data directory, too big to upload.
+    ├── train.parquet/ # Download raw data to this directory
+    └── dataset/ # Run the code in `data_preprocess/` to get the dataset.
+├── Code/ # Code directory
+    ├── data_preprocess/ # Code for data prprocessing.
+        ├── main.py # The pipline.
+        └── utils.py # The utils functions.
+ ├── datasets/ # The dataset.
+     └── jsmp_dataset.py # Dataset module.
+└── partition_id=9
+```
 
 ## 1. Introduction
 
-本作业以 Kaggle 竞赛 Jane Street 数据为例，展示 CNN 在时序数据处理中的特征提取与降噪方法，理解高频交易数据的特性与挑战。作业的核心是为了培养金融工程思维：建立从数据清洗、特征工程到模型构建与训练的完整量化研究流程，初步具备构建金融智能策略系统的能力。本报告详细说明了作者解决作业问题的整体思路。
+本作业以 Kaggle 竞赛 Jane Street 数据为例，展示 CNN 在时序数据处理中的特征提取与降噪方法，理解高频交易数据的特性与挑战。作业的核心目的是为了培养金融工程的系统性思维，帮助同学们建立从数据清洗、特征工程到模型构建与训练的完整量化研究流程，初步具备构建金融智能策略系统的能力。
 
-## 2. Data Clean
+本报告尽可能详细展示了作者解答本作业问题的思路，整体的组织架构直接参照助教给出的报告要求。总的来说，本作业解答核心框架如图 1. 所示，共分为**数据集处理、模型搭建和实验三个部分**。具体来看：数据集处理包括从竞赛官网下载原始数据、按照要求进行数据预处理以及重新组织数据三个关键步骤；模型搭建核心在于构造目标数据集、按要求构建模型以及设定合理的超参数集合；在上述两个部分完成后就可以开始进行实验，在训练和验证中调整模型架构和关键超参，进而得到并分析相关实验结果。
 
-### 2.1 Dataset Description
+<img src="./Imgs/1-Framework.png" alt="Framework" style="zoom:50%;" />
+
+<center>图 1. 作业整体框架</center>
+
+需要进一步说明的是，本作业并没有如标准的神经网络项目那样，在训练、验证结束后在测试集上进一步测试，这核心是因为赛事主办方没有公开合理正确的测试集，尽管原是数据下载后有 `test` 的部分数据，但是这些数据的组织形式明显是过于模糊、简单化的。因此将本作业的重心放在对量化研究整体流程的理解上，首先通过将主办方提供的训练数据人工划分为训练和验证部分，然后拉通整体流程，最后对结果进行详细分析，在实现作业要求的同时，深刻地理解了各步骤中的处理细节，加深对数据处理、模型构建以及实验的认知。总而言之，本作业想要突出的核心工作如下：
+
+- 本作业搭建了一套将高频交易时序数据转化为“类图像”数据，并基于 CNN 进行信号预测与噪音识别的通用项目框架。所有代码目前均已[**开源**](https://github.com/KarryRen/Karry-Studies-AI/tree/main/Cases/JS-Real-Time-Market-Data-Forecasting)。
+- 数据处理上：基于对空缺值的探索，筛选关键指标并完成空值填充。进一步地使用 z-score 方法进行特征标准化，最终通过跨时间步和调整形状的方式将时序特征数据调整为通道数为滞后期 `time_step`，大小为 `(h, w)` 的"类图像"的三位张量数据。对于预测标签而言，首先保留了竞赛中衡量评分的关键标签 `responder_6`，其次根据偏离程度搭建了噪声识别标签 `is_noise`。
+- 模型构造上：搭建的 Multi-CNN 模型，一方面在识别尺度上具有 “Multi” 特性，既有小尺度卷积操作也有较大尺度的卷积操作；另一方面在预测目标上具有 “Multi” 特性，既能输出对连续性标签 `responder_6` 的预测，又能输出对
+
+
+
+## 2. Dataset
+
+### 2.1 Data Description
 
 本作业数据集来自 Kaggle 上 Jane Street 发起的一个[**竞赛**](https://www.kaggle.com/competitions/jane-street-real-time-market-data-forecasting/overview)。此数据库核心是匿名处理的真实交易数据，但由于比赛限制我们无法拿到合理的 test 数据针对真实情况进行调优，因此本作业解答专注在对 train 数据集上的研究，不调用主办方提供的测试数据和接口，以实现更加完整、流畅的练习目的，并呈现相对清晰、泛化的解题思路和框架。在此我对训练数据 `train.parquet` 进行了如下详细描述。
 
@@ -76,6 +90,8 @@ train.parquet/
 **Step 4. 结构化数据构建**
 
 选择 `time_step = 3`，即同时看当前时间戳以及前两步的信息，同时进行数据结构化，得到最终的数据输入。按照时间先后进行训练和验证集的划分，前 160 天数据做训练集，后 20 天数据做验证集。
+
+
 
 ## 3. Methodology
 

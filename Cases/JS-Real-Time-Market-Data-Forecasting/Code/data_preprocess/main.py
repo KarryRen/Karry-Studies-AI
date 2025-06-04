@@ -2,7 +2,11 @@
 # @Time    : 2025/6/1 22:15
 # @Author  : Karry Ren
 
-""" The pipline for data preprocessing. """
+""" The pipline for data preprocessing.
+
+Download raw data from website, then run this pipline to get dataset.
+
+"""
 
 import os
 import numpy as np
@@ -21,7 +25,7 @@ if __name__ == "__main__":
         data_i_df = pd.read_parquet(f"{raw_data_dir}/partition_id={i}/part-0.parquet")
         raw_data_df = pd.concat([raw_data_df, data_i_df], ignore_index=True)
         print(f"Read id={i}: {len(data_i_df)} lines.")
-    # describe_data(raw_data_df)
+    describe_data(raw_data_df)
 
     # ---- Step 1. Reduce memory ---- #
     raw_data_df = raw_data_df[config.DATA_COLUMNS]  # select columns
@@ -30,8 +34,8 @@ if __name__ == "__main__":
     # ---- Step 2. Nan Operation ---- #
     date_symbol_id_visual(raw_data_df)
     data_df = raw_data_df[raw_data_df["date_id"] >= config.SKIP_DATES].reset_index(drop=True)  # skip dates
-    # describe_data(data_df)
-    # describe_modeling_column(data_df[config.DATA_COLUMNS[4:]], "None")
+    describe_data(data_df)
+    describe_modeling_column(data_df[config.DATA_COLUMNS[4:]], "None")
     for col in config.DATA_COLUMNS[4:]:  # ffill to reduce nan
         if data_df[col].isna().any():
             data_df[col] = data_df.groupby("symbol_id")[col].ffill()
@@ -40,21 +44,21 @@ if __name__ == "__main__":
     for col in config.SELECTED_COLUMNS[4:]:  # use mid to fill
         if data_df[col].isna().any():
             data_df[col] = data_df.groupby("symbol_id")[col].transform(lambda x: x.fillna(x.median()))
-    # describe_modeling_column(data_df[config.SELECTED_COLUMNS[4:]], "use_mid")
+    describe_modeling_column(data_df[config.SELECTED_COLUMNS[4:]], "use_mid")
 
-    # ---- Normalization ---- #
+    # ---- Step 3. Normalization ---- #
     # change data type to float32
     data_df[config.SELECTED_COLUMNS[4:]] = data_df[config.SELECTED_COLUMNS[4:]].astype("float32")
     # z-score the feature columns
     mean = data_df[config.SELECTED_COLUMNS[4:-1]].mean()
     std = data_df[config.SELECTED_COLUMNS[4:-1]].std() + 1e-5
     data_df[config.SELECTED_COLUMNS[4:-1]] = (data_df[config.SELECTED_COLUMNS[4:-1]] - mean) / std
-    # describe_modeling_column(data_df[config.SELECTED_COLUMNS[4:]], "z_score")
+    describe_modeling_column(data_df[config.SELECTED_COLUMNS[4:]], "z_score")
 
-    # ---- Set Noise Label ---- #
+    # ---- Step 4. Set Noise Label ---- #
     data_df["is_noise"] = (data_df[config.SELECTED_COLUMNS[4:-1]].abs() > 4.5).any(axis=1).astype(int)
 
-    # ---- Build up final dataset ---- #
+    # ---- Step 5. Build up final dataset ---- #
     # split train & valid
     dates = sorted(data_df["date_id"].unique())
     train_dates, valid_dates = dates[:-config.NUM_OF_VALID_DATES], dates[-config.NUM_OF_VALID_DATES:]
