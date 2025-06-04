@@ -5,7 +5,7 @@
 """ The metrics. """
 
 import numpy as np
-from sklearn.metrics import accuracy_score, precision_score, f1_score
+from sklearn.metrics import accuracy_score, precision_score, f1_score, confusion_matrix
 
 
 def r2_score(y_true: np.ndarray, y_pred: np.ndarray, weight: np.ndarray = None, epsilon: float = 1e-10):

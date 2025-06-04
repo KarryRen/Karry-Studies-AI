@@ -7,11 +7,12 @@
 import logging
 import torch
 import torch.utils.data as data
-import numpy as np
 from tqdm import tqdm
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 from utils import load_best_model
-from models.metrics import r2_score, accuracy_score, f1_score
+from models.metrics import r2_score, accuracy_score, f1_score, confusion_matrix
 from datasets.jsmp_dataset import JSMPDataset
 import config as config
 
@@ -65,20 +66,31 @@ def pred_model() -> None:
             last_step = now_step
 
     # ---- Print result ---- #
-    star_idx, end_idx = 0, 1
     r2 = r2_score(
-        y_true=test_labels.cpu().numpy()[star_idx:end_idx], y_pred=test_preds.cpu().numpy()[star_idx:end_idx],
-        weight=test_weights.cpu().numpy()[star_idx:end_idx]
+        y_true=test_labels.cpu().numpy(), y_pred=test_preds.cpu().numpy(),
+        weight=test_weights.cpu().numpy()
     )
-    acc = accuracy_score(y_true=test_isnoise_labels.cpu().numpy()[star_idx:end_idx], y_pred=test_isnoise.cpu().numpy()[star_idx:end_idx])
+    acc = accuracy_score(y_true=test_isnoise_labels.cpu().numpy(), y_pred=test_isnoise.cpu().numpy())
     f1 = f1_score(
-        y_true=test_isnoise_labels.cpu().numpy()[star_idx:end_idx], y_pred=test_isnoise.cpu().numpy()[star_idx:end_idx],
+        y_true=test_isnoise_labels.cpu().numpy(), y_pred=test_isnoise.cpu().numpy(),
         average="weighted"
     )
     print(f"r2 = {r2:.4f}")
     print(f"acc = {acc:.4f}")
     print(f"f1 = {f1:.4f}")
     logging.info("***************** TEST OVER ! *****************\n")
+
+    cm = confusion_matrix(y_true=test_isnoise_labels.cpu().numpy(), y_pred=test_isnoise.cpu().numpy())
+    print("confusion_matrix:", cm)
+    plt.figure(figsize=(8, 6))
+    sns.heatmap(
+        cm, annot=True, fmt="d", cmap="Blues",
+        xticklabels=[0, 1],
+        yticklabels=[0, 1]
+    )
+    plt.xlabel("is_noise predictions")
+    plt.ylabel("is_noise true labels")
+    plt.savefig(f"{config.SAVE_PATH}/confusion_matrix.png", dpi=300)
 
 
 if __name__ == "__main__":

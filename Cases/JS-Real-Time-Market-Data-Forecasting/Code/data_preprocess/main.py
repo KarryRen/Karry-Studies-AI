@@ -39,14 +39,14 @@ if __name__ == "__main__":
     for col in config.DATA_COLUMNS[4:]:  # ffill to reduce nan
         if data_df[col].isna().any():
             data_df[col] = data_df.groupby("symbol_id")[col].ffill()
-    # describe_modeling_column(data_df[config.DATA_COLUMNS[4:]], "ffill")
+    describe_modeling_column(data_df[config.DATA_COLUMNS[4:]], "ffill")
     data_df = data_df[config.SELECTED_COLUMNS]  # drop too much nan
     for col in config.SELECTED_COLUMNS[4:]:  # use mid to fill
         if data_df[col].isna().any():
             data_df[col] = data_df.groupby("symbol_id")[col].transform(lambda x: x.fillna(x.median()))
     describe_modeling_column(data_df[config.SELECTED_COLUMNS[4:]], "use_mid")
 
-    # ---- Step 3. Normalization ---- #
+    # ---- Step 3. Normalization & Set Noise Label ---- #
     # change data type to float32
     data_df[config.SELECTED_COLUMNS[4:]] = data_df[config.SELECTED_COLUMNS[4:]].astype("float32")
     # z-score the feature columns
@@ -54,11 +54,9 @@ if __name__ == "__main__":
     std = data_df[config.SELECTED_COLUMNS[4:-1]].std() + 1e-5
     data_df[config.SELECTED_COLUMNS[4:-1]] = (data_df[config.SELECTED_COLUMNS[4:-1]] - mean) / std
     describe_modeling_column(data_df[config.SELECTED_COLUMNS[4:]], "z_score")
-
-    # ---- Step 4. Set Noise Label ---- #
     data_df["is_noise"] = (data_df[config.SELECTED_COLUMNS[4:-1]].abs() > 4.5).any(axis=1).astype(int)
 
-    # ---- Step 5. Build up final dataset ---- #
+    # ---- Step 4. Build up final dataset ---- #
     # split train & valid
     dates = sorted(data_df["date_id"].unique())
     train_dates, valid_dates = dates[:-config.NUM_OF_VALID_DATES], dates[-config.NUM_OF_VALID_DATES:]
