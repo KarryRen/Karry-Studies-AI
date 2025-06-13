@@ -11,7 +11,7 @@ Download raw data from website, then run this pipline to get dataset.
 import os
 import numpy as np
 import pandas as pd
-import Code.config as config
+import CodeCNN.config as config
 
 from utils import describe_data, describe_modeling_column
 from utils import reduce_mem_usage, date_symbol_id_visual

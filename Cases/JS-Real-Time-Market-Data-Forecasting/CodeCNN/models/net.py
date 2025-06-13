@@ -7,7 +7,7 @@
 import torch
 from torch import nn
 
-from Code.models.modules import SELayer_2D
+from CodeCNN.models.modules import SELayer_2D
 
 
 class Multi_CNN(nn.Module):
