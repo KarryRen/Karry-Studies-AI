@@ -9,7 +9,6 @@ import numpy as np
 import os
 import logging
 from joblib import parallel_backend
-from sklearn.metrics import mean_squared_error
 
 from models.net import random_search
 import config as config
@@ -24,11 +23,11 @@ def train_valid_model():
     # ---- Load the data ---- #
     logging.info(f"**** TRAINING & VALID DATA ****")
     data_train = np.load("../Data/dataset_xgboost/train.npz")
-    X_train, y_train, w_train = data_train["x"].astype(np.float32), data_train["y"].astype(np.float32), data_train["w"].astype(np.float32)
+    X_train, y_train, w_train = data_train["x"].astype(np.float16), data_train["y"].astype(np.float16), data_train["w"].astype(np.float16)
     X_train = X_train.reshape(X_train.shape[0], -1)
     logging.info(f"train dataset: x_train.shape={X_train.shape}, y_train.shape={y_train.shape}, w_train.shape={w_train.shape}")
     data_valid = np.load("../Data/dataset_xgboost/valid.npz")
-    X_valid, y_valid, w_valid = data_valid["x"].astype(np.float32), data_valid["y"].astype(np.float32), data_valid["w"].astype(np.float32)
+    X_valid, y_valid, w_valid = data_valid["x"].astype(np.float16), data_valid["y"].astype(np.float16), data_valid["w"].astype(np.float16)
     X_valid = X_valid.reshape(X_valid.shape[0], -1)
     logging.info(f"valid dataset: x_valid.shape={X_valid.shape}, y_valid.shape={y_valid.shape}, w_valid.shape={w_valid.shape}")
 
@@ -41,10 +40,12 @@ def train_valid_model():
             verbose=False
         )
     best_model = model.best_estimator_
+    logging.info(f"Model training is over.")
 
     # ---- Metrics eval ---- #
     y_pred = best_model.predict(X_valid)
-    standard_rmse = np.sqrt(mean_squared_error(y_true=y_valid, y_pred=y_pred))
+    y_valid, w_valid = y_valid[:, 0], w_valid[:, 0]
+    standard_rmse = np.sqrt(np.mean((y_valid - y_pred) ** 2))
     weighted_rmse = np.sqrt(np.mean(w_valid * (y_valid - y_pred) ** 2))
     upward_error = np.mean(np.abs(y_pred[y_valid >= 0] - y_valid[y_valid >= 0]))
     downward_error = np.mean(np.abs(y_pred[y_valid < 0] - y_valid[y_valid < 0]))
@@ -81,14 +82,14 @@ def train_valid_model():
     plt.title("Quantile Error Analysis")
     plt.tight_layout()
     # save
-    plt.savefig(f"{config.SAVE_PATH}/complex1.png")
+    plt.savefig(f"{config.SAVE_PATH}/complex1.png", dpi=300)
 
     # ---- Feature Importance ---- #
     plt.figure(figsize=(10, 6))
     sorted_idx = best_model.feature_importances_.argsort()
-    plt.barh(np.array(len(config.SELECTED_COLUMNS[4:-1]))[sorted_idx], best_model.feature_importances_[sorted_idx])
+    plt.barh(np.array(range(64 * 3))[sorted_idx], best_model.feature_importances_[sorted_idx])
     plt.title("Feature Importance")
-    plt.savefig(f"{config.SAVE_PATH}/feature_importance.png")
+    plt.savefig(f"{config.SAVE_PATH}/feature_importance.png", dpi=300)
 
 
 if __name__ == "__main__":

@@ -20,7 +20,7 @@ def random_search(seed: int) -> RandomizedSearchCV:
     param_dist = {
         "n_estimators": [200, 250, 300],
         "learning_rate": [0.05, 0.08, 0.1],
-        "max_depth": [5, 6],
+        "max_depth": [3, 4],
         "subsample": [0.7, 0.8],
         "colsample_bytree": [0.7, 0.8],
         "gamma": [0, 0.05, 0.1],
@@ -32,7 +32,7 @@ def random_search(seed: int) -> RandomizedSearchCV:
     xgb_model = XGBRegressor(
         objective="reg:squarederror",
         random_state=seed,
-        tree_method="hist",  # "gpu_hist" for gpu
+        tree_method="hist",
         early_stopping_rounds=10
     )
 
@@ -40,7 +40,7 @@ def random_search(seed: int) -> RandomizedSearchCV:
     rs = RandomizedSearchCV(
         estimator=xgb_model,
         param_distributions=param_dist,
-        n_iter=15,
+        n_iter=1,
         scoring="neg_root_mean_squared_error",
         cv=2,
         verbose=2,
