@@ -35,7 +35,7 @@ class JSMPDataset(data.Dataset):
         assert data_type in ["train", "valid"], "data_type should be 'train' or 'valid' !"
 
         # ---- Read the data and get x, y, w ---- #
-        self.data = np.load(f"{root_path}/dataset/{data_type}.npz")
+        self.data = np.load(f"{root_path}/dataset_cnn/{data_type}.npz")
         self.feature, self.label, self.weight, self.is_noise = self.data["x"], self.data["y"], self.data["w"], self.data["n"]
 
         # ---- Check the length ---- #
