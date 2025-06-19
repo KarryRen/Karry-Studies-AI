@@ -7,7 +7,7 @@ JS-Real-Time-Market-Data-Forecasting/
 ├── Data/ # Data directory, too big to upload, follow the report to build by yourself.
     ├── train.parquet/ # Download raw data to this directory
     └── dataset/ # Run the code in `data_preprocess/` to get the dataset.
-├── Code/ # Code directory
+├── CodeCNN/ # Code directory
     ├── data_preprocess/ # Code for data prprocessing.
         ├── main.py # The pipline.
         └── utils.py # The utils functions.
@@ -26,8 +26,7 @@ JS-Real-Time-Market-Data-Forecasting/
 ├── Doc/ # Documents.
     ├── Ref-1 # Ref 1.
     └── 作业1-基于CNN的高频交易噪声过滤与多空信号识别.docx # Requirements for homework.
-├── report.pdf # .pdf format report.
-├── README.md # .md format report.
+├── README-CNN.md # .md format report.
 └── requirements.txt # The dependencies. 
 ```
 

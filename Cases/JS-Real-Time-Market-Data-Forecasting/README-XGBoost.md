@@ -8,26 +8,9 @@ JS-Real-Time-Market-Data-Forecasting/
     ├── train.parquet/ # Download raw data to this directory
     └── dataset/ # Run the code in `data_preprocess/` to get the dataset.
 ├── Code/ # Code directory
-    ├── data_preprocess/ # Code for data prprocessing.
-        ├── main.py # The pipline.
-        └── utils.py # The utils functions.
-    ├── datasets/ # The dataset.
-        └── jsmp_dataset.py # Dataset module.
-    ├── models/ # The model codes.
-        ├── net.py # Network.
-        ├── modules.py # Important modules.
-        ├── loss.py # Loss functions.
-        └── metrics.py # Metrics functions.
-    ├── config.py # Related configs.
-    ├── train_valid_model.py # The pipline to train & valid model.
-    ├── pred_model.py # The pipline to test model
-    └── utils.py # The utils functions.
 ├── Imgs/ # All images used.
 ├── Doc/ # Documents.
-    ├── Ref-1 # Ref 1.
-    └── 作业1-基于CNN的高频交易噪声过滤与多空信号识别.docx # Requirements for homework.
-├── report.pdf # .pdf format report.
-├── README.md # .md format report.
+├── README-XGBoost.md # .md format report.
 └── requirements.txt # The dependencies. 
 ```
 
