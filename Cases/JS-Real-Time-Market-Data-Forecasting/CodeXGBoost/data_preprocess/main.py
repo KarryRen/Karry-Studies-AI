@@ -11,10 +11,9 @@ Download raw data from website, then run this pipline to get dataset.
 import os
 import numpy as np
 import pandas as pd
-import CodeCNN.config as config
 
-from utils import describe_data, describe_modeling_column
-from utils import reduce_mem_usage, date_symbol_id_visual
+import CodeXGBoost.config as config
+from utils import reduce_mem_usage
 
 if __name__ == "__main__":
     # --- Read raw data & Describe ---- #
@@ -25,36 +24,33 @@ if __name__ == "__main__":
         data_i_df = pd.read_parquet(f"{raw_data_dir}/partition_id={i}/part-0.parquet")
         raw_data_df = pd.concat([raw_data_df, data_i_df], ignore_index=True)
         print(f"Read id={i}: {len(data_i_df)} lines.")
-    describe_data(raw_data_df)
 
     # ---- Step 1. Reduce memory ---- #
     raw_data_df = raw_data_df[config.DATA_COLUMNS]  # select columns
     raw_data_df = reduce_mem_usage(raw_data_df)  # change type
 
     # ---- Step 2. Nan Operation ---- #
-    date_symbol_id_visual(raw_data_df)
     data_df = raw_data_df[raw_data_df["date_id"] >= config.SKIP_DATES].reset_index(drop=True)  # skip dates
-    describe_data(data_df)
-    describe_modeling_column(data_df[config.DATA_COLUMNS[4:]], "None")
     for col in config.DATA_COLUMNS[4:]:  # ffill to reduce nan
         if data_df[col].isna().any():
             data_df[col] = data_df.groupby("symbol_id")[col].ffill()
-    describe_modeling_column(data_df[config.DATA_COLUMNS[4:]], "ffill")
     data_df = data_df[config.SELECTED_COLUMNS]  # drop too much nan
     for col in config.SELECTED_COLUMNS[4:]:  # use mid to fill
         if data_df[col].isna().any():
             data_df[col] = data_df.groupby("symbol_id")[col].transform(lambda x: x.fillna(x.median()))
-    describe_modeling_column(data_df[config.SELECTED_COLUMNS[4:]], "use_mid")
 
-    # ---- Step 3. Normalization & Set Noise Label ---- #
+    # ---- Step 3. Normalization ---- #
     # change data type to float32
     data_df[config.SELECTED_COLUMNS[4:]] = data_df[config.SELECTED_COLUMNS[4:]].astype("float32")
     # z-score the feature columns
     mean = data_df[config.SELECTED_COLUMNS[4:-1]].mean()
     std = data_df[config.SELECTED_COLUMNS[4:-1]].std() + 1e-5
     data_df[config.SELECTED_COLUMNS[4:-1]] = (data_df[config.SELECTED_COLUMNS[4:-1]] - mean) / std
-    describe_modeling_column(data_df[config.SELECTED_COLUMNS[4:]], "z_score")
-    data_df["is_noise"] = (data_df[config.SELECTED_COLUMNS[4:-1]].abs() > 4.5).any(axis=1).astype(int)
+
+    # ---- Step 4. Gen downside mask ---- #
+    data_df["downside_mask"] = 1.0  # all mask as 1
+    data_df.loc[data_df["responder_6"] < 0.0, "downside_mask"] = 2.5
+    data_df.loc[data_df["responder_6"] < -2.0, "downside_mask"] = 4.0
 
     # ---- Step 4. Build up final dataset ---- #
     # split train & valid
@@ -63,7 +59,7 @@ if __name__ == "__main__":
     data_df_train = data_df.loc[data_df["date_id"].isin(train_dates)]
     data_df_valid = data_df.loc[data_df["date_id"].isin(valid_dates)]
     # build samples by symbol
-    os.makedirs("../../Data/dataset_cnn/", exist_ok=True)
+    os.makedirs("../../Data/dataset_xgboost/", exist_ok=True)
     # - for train data
     symbol_ids_train = sorted(data_df_train["symbol_id"].unique())
     train_line_num, train_symbol_num = len(data_df_train), len(symbol_ids_train)
@@ -75,20 +71,19 @@ if __name__ == "__main__":
         symbol_data_df = data_df_train[data_df_train["symbol_id"] == symbol_id].sort_values(by=["date_id", "time_id"])
         symbol_x_data = symbol_data_df[config.SELECTED_COLUMNS[4:-1]].values
         symbol_y_data = symbol_data_df[config.SELECTED_COLUMNS[-1]].values
-        symbol_w_data = symbol_data_df[config.SELECTED_COLUMNS[3]].values
-        symbol_n_data = symbol_data_df["is_noise"].values
+        symbol_w_data = symbol_data_df[config.SELECTED_COLUMNS[3]].values * symbol_data_df["downside_mask"].values
         for i in range(config.TIME_STEPS - 1, len(symbol_data_df)):
             train_x[train_sample_step] = symbol_x_data[i - config.TIME_STEPS + 1:i + 1]
             train_y[train_sample_step] = symbol_y_data[i]
             train_w[train_sample_step] = symbol_w_data[i]
-            train_n[train_sample_step] = symbol_n_data[i]
+
             train_sample_step += 1
         print(f"Train Processing symbol id: {symbol_id}, len={len(symbol_data_df)}, train_sample_step={train_sample_step}")
     assert not np.isnan(train_x).any(), "Train x has NaN values."
     assert not np.isnan(train_y).any(), "Train y has NaN values."
     assert not np.isnan(train_w).any(), "Train w has NaN values."
     assert not np.isnan(train_n).any(), "Train n has NaN values."
-    np.savez("../../Data/dataset_cnn/train", x=train_x, y=train_y, w=train_w, n=train_n)
+    np.savez("../../Data/dataset_xgboost/train", x=train_x, y=train_y, w=train_w, n=train_n)
     # - for valid data
     symbol_ids_valid = sorted(data_df_valid["symbol_id"].unique())
     valid_line_num, valid_symbol_num = len(data_df_valid), len(symbol_ids_valid)
@@ -100,17 +95,15 @@ if __name__ == "__main__":
         symbol_data_df = data_df_valid[data_df_valid["symbol_id"] == symbol_id].sort_values(by=["date_id", "time_id"])
         symbol_x_data = symbol_data_df[config.SELECTED_COLUMNS[4:-1]].values
         symbol_y_data = symbol_data_df[config.SELECTED_COLUMNS[-1]].values
-        symbol_w_data = symbol_data_df[config.SELECTED_COLUMNS[3]].values
-        symbol_n_data = symbol_data_df["is_noise"].values
+        symbol_w_data = symbol_data_df[config.SELECTED_COLUMNS[3]].values * symbol_data_df["downside_mask"].values
         for i in range(config.TIME_STEPS - 1, len(symbol_data_df)):
             valid_x[valid_sample_step] = symbol_x_data[i - config.TIME_STEPS + 1:i + 1]
             valid_y[valid_sample_step] = symbol_y_data[i]
             valid_w[valid_sample_step] = symbol_w_data[i]
-            valid_n[valid_sample_step] = symbol_n_data[i]
             valid_sample_step += 1
         print(f"Valid Processing symbol id: {symbol_id}, len={len(symbol_data_df)}, valid_sample_step={valid_sample_step}")
     assert not np.isnan(valid_x).any(), "Valid x has NaN values."
     assert not np.isnan(valid_y).any(), "Valid y has NaN values."
     assert not np.isnan(valid_w).any(), "Valid w has NaN values."
     assert not np.isnan(valid_n).any(), "Valid n has NaN values."
-    np.savez("../../Data/dataset_cnn/valid", x=valid_x, y=valid_y, w=valid_w, n=valid_n)
+    np.savez("../../Data/dataset_xgboost/valid", x=valid_x, y=valid_y, w=valid_w, n=valid_n)
