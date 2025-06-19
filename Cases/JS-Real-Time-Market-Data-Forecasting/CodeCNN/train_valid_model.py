@@ -24,6 +24,7 @@ from utils import fix_random_seed
 
 def train_valid_model() -> None:
     """ Train & Valid Model. """
+
     logging.info(f"***************** RUN TRAIN&VALID MODEL *****************")
 
     # ---- Get the train and valid device ---- #
